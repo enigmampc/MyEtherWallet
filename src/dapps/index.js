@@ -8,9 +8,21 @@ import makerdai from '@/assets/images/icons/dapps/makerdai.svg';
 import makerdaiDisabled from '@/assets/images/icons/dapps/makerdai-disabled.svg';
 import ambrpay from '@/assets/images/icons/dapps/ambrpay.png';
 import ambrpayDisabled from '@/assets/images/icons/dapps/ambrpay-disabled.png';
+import salad from '@/assets/images/icons/dapps/salad.svg';
 import { ETH, GOERLI, ROP, RIN, KOV } from '@/networks/types';
 
 const dapps = {
+  salad: {
+    route: '/interface/dapps/salad',
+    icon: salad,
+    // todo salad disabled icon
+    iconDisabled: salad,
+    title: 'salad.title',
+    desc: 'salad.desc',
+    supportedNetworks: [ETH.name, RIN.name],
+    lastUpdated: '25/12/2019',
+    releaseDate: '25/12/2019'
+  },
   manageEns: {
     route: '/interface/dapps/manage-ens',
     icon: manageEns,

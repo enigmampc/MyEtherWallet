@@ -38,6 +38,7 @@ import mewcx from './mew-cx/en_US';
 import dappsAmbrpay from './dapps-ambrpay/en_US';
 import phishing from './other/phishing/en_US';
 import header from './header/en_US';
+import salad from './dapps-salad/en_US';
 
 const en_US = {
   common: common,
@@ -78,6 +79,7 @@ const en_US = {
   mewcx: mewcx,
   dappsAmbrpay: dappsAmbrpay,
   phishing: phishing,
-  header: header
+  header: header,
+  salad: salad
 };
 export default en_US;
