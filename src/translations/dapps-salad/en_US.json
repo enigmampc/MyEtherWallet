@@ -1,0 +1,16 @@
+{
+  "title": "Salad",
+  "desc": "Privacy is healthy. Make some Salad and keep your transactions to yourself. What is Salad?",
+  "desc2": "Send ETH Privately",
+  "salad-mix-popover": "Send ETH Privately",
+  "nextMix-label": "Next Mix in: {0}",
+  "deliveryAddress-ph": "e.g. 0x0343..............4343",
+  "deliveryAddress-label": "Where do you want funds delivered?",
+  "depositAddress-label": "Funds will be sent from ",
+  "depositAddress-label2": " [user's current address]",
+  "startDeposit-button": "Start Deposit",
+  "mixAmount-label": "Salad mixes {0} ETH at a time.",
+  "mixTime-label": "Funds can take up to {0} hours to reach the destination address." , 
+  "exit-dapp": "Exit Dapp",
+  "learn-more": "Learn More"
+}

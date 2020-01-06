@@ -1,0 +1,94 @@
+@import '~@/scss/GlobalVariables';
+
+.salad-deposit-container {
+  background-color: $white;
+  border-radius: 4px;
+  grid-area: main;
+  overflow: hidden;
+  margin-bottom: 10px;
+
+  .salad-header {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 25px;
+    background-color: 'CDF2EE';
+
+    .title-container {
+      align-items: baseline;
+      display: flex;
+    }
+  }
+
+  .page-title {
+    text-align: center;
+    margin-top: 30px;
+  }
+  .page-container {
+    padding: 20px;
+  }
+}
+
+.salad-deposit-content {
+  padding: 40px;
+
+  // Tablet
+  @media all and (min-width: calc(#{$mobile-width} + 1px)) and (max-width: $tablet-width) {
+    padding: 20px;
+  }
+
+  // Mobile
+  @media all and (max-width: $mobile-width) {
+    padding: 10px;
+  }
+}
+
+.salad-deposit-form {
+  padding: 20px;
+
+  // Tablet
+  @media all and (min-width: calc(#{$mobile-width} + 1px)) and (max-width: $tablet-width) {
+    padding: 20px;
+  }
+
+  // Mobile
+  @media all and (max-width: $mobile-width) {
+    padding: 10px;
+  }
+
+  .deliveryAddress {
+    @media all and (max-width: 767px) {
+      margin-top: 10px !important;
+    }
+  }
+  .deliveryAddress-label {
+    margin-top: 10px !important;
+    margin-bottom: 2px !important;
+  }
+  .inner-header {
+    font-weight: 400;
+    margin-top: 1px !important;
+    margin-bottom: 20px !important;
+  }
+
+  .mixAmount-label {
+    font-weight: bold;
+  }
+
+  .deposit-container {
+    .deposit-btn-container {
+      margin: 10px 10px 10px;
+      background-color: 'CDF2EE' !important;
+      color: 'CDF2EE';
+    }
+
+    .deliveryAddress-input {
+      margin: 10px 10px 10px;
+    }
+  }
+  .deposit-info {
+    .currentAddress {
+      font-weight: bold;
+    }
+  }
+}
