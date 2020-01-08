@@ -11,19 +11,19 @@
         </div>
       </div>
       <div>
-        <salad-mix-inner></salad-mix-inner>
+        <salad-mix-content></salad-mix-content>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import SaladMixInner from './SaladMixInner.vue';
+import SaladMixContent from '../SaladMixContent';
 import BackButton from '@/layouts/InterfaceLayout/components/BackButton';
 
 export default {
   components: {
-    'salad-mix-inner': SaladMixInner,
+    'salad-mix-content': SaladMixContent,
     'back-button': BackButton
   }
 };

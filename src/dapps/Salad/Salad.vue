@@ -1,15 +1,15 @@
 <template>
   <div class="salad-main-container">
-    <salad-mix-outer></salad-mix-outer>
+    <salad-mix></salad-mix>
   </div>
 </template>
 
 <script>
-import SaladMixOuter from './SaladMixOuter';
+import SaladMix from './containers/SaladMix';
 
 export default {
   components: {
-    'salad-mix-outer': SaladMixOuter
+    'salad-mix': SaladMix
   }
 };
 </script>

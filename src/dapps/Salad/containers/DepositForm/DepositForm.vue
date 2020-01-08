@@ -66,7 +66,7 @@
 
 <script>
 import { mapState } from 'vuex';
-import SaladMixer from './SaladMixer';
+import SaladMixer from './SaladMixer.js';
 
 export default {
   data: function() {
@@ -106,5 +106,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import 'SaladDepositForm.scss';
+@import 'DepositForm.scss';
 </style>

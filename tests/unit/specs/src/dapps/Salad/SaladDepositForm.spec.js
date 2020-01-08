@@ -1,10 +1,10 @@
 import Vue from 'vue';
 import { shallowMount } from '@vue/test-utils';
-import SaladDepositForm from '@/dapps/Salad/components/SaladDepositForm.vue';
+import DepositForm from '@/dapps/Salad/containers/DepositForm';
 import InterfaceBottomText from '@/components/InterfaceBottomText';
 import { Tooling } from '@@/helpers';
 
-describe('SaladDepositForm.vue', () => {
+describe('DepositForm.vue', () => {
   let localVue, i18n, wrapper, store;
 
   beforeAll(() => {
@@ -16,7 +16,7 @@ describe('SaladDepositForm.vue', () => {
   });
 
   beforeEach(() => {
-    wrapper = shallowMount(SaladDepositForm, {
+    wrapper = shallowMount(DepositForm, {
       localVue,
       i18n,
       store,

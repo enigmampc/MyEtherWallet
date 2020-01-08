@@ -1,4 +1,4 @@
-import Salad from './components/Salad';
+import Salad from './Salad';
 
 export default {
   path: 'dapps/salad',
