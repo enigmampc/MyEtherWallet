@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import { shallowMount } from '@vue/test-utils';
-import SaladMixOuter from '@/dapps/Salad/containers/SaladMix';
+import SaladMix from '@/dapps/Salad/containers/SaladMix';
 import InterfaceBottomText from '@/components/InterfaceBottomText';
 import { Tooling } from '@@/helpers';
 
@@ -16,7 +16,7 @@ describe('SaladMix.vue', () => {
   });
 
   beforeEach(() => {
-    wrapper = shallowMount(SaladMixOuter, {
+    wrapper = shallowMount(SaladMix, {
       localVue,
       i18n,
       store,

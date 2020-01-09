@@ -36,11 +36,17 @@
 
         <b-row class="deposit-container">
           <div class="deliveryAddress-input">
-            <input :placeholder="$t('salad.deliveryAddress-ph')" type="text" />
+            <input :placeholder="$t('salad.deliveryAddress-ph')" type="text" 
+                v-model="deliveryAddress"/>
+            <p v-show="deliveryAddressErrMsg" class="sub-text err-msg">
+              {{ deliveryAddressErrMsg }}
+            </p>
           </div>
-
+        
           <div class="deposit-btn-container">
-            <b-button class="startDeposit-btn" @click="startDeposit()">
+            <b-button :class="[isValidInput ? '' : 'disabled']"
+                      class="mew-btn startDeposit-btn"
+                      @click="startDeposit()">
               {{ $t('salad.startDeposit-button') }}
             </b-button>
           </div>
@@ -67,20 +73,45 @@
 <script>
 import { mapState } from 'vuex';
 import SaladMixer from './SaladMixer.js';
+import {
+  isValidChecksumAddress as isValidRSKChecksumAddress,
+  toChecksumAddress as toRSKChecksumAddress
+} from 'rskjs-util';
+import { toChecksumAddress } from 'web3-utils';
 
 export default {
   data: function() {
     return {
       deliveryAddress: '',
       nextMix: '',
-      message: ''
+      message: '',
+      isValidDeliveryAddress: false,
+      deliveryAddressErrMsg: ''
     };
   },
   computed: {
-    ...mapState(['web3', 'account', 'network', 'online'])
+    ...mapState(['web3', 'account', 'network', 'online']),
+    isValidInput() {
+      return (
+        this.isValidDeliveryAddress &&
+        this.deliveryAddress &&
+        !this.deliveryAddressErrMsg
+      );
+    },
   },
   mounted() {
     this.init();
+  },
+  watch: {
+      deliveryAddress(newVal) {
+        try {
+          this.deliveryAddress = toChecksumAddress(newVal);
+          this.isValidDeliveryAddress = true;
+          this.deliveryAddressErrMsg = '';
+        } catch (error) {
+          this.deliveryAddressErrMsg = 'DeliveryAddress be a valid Ethereum address';
+        }
+    }
   },
   methods: {
     init() {
