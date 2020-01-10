@@ -1,34 +1,5 @@
 @import '~@/scss/GlobalVariables';
 
-.salad-deposit-container {
-  background-color: $white;
-  border-radius: 4px;
-  grid-area: main;
-  overflow: hidden;
-  margin-bottom: 10px;
-
-  .salad-header {
-    align-items: center;
-    display: flex;
-    justify-content: space-between;
-    margin-top: 25px;
-    background-color: 'CDF2EE';
-
-    .title-container {
-      align-items: baseline;
-      display: flex;
-    }
-  }
-
-  .page-title {
-    text-align: center;
-    margin-top: 30px;
-  }
-  .page-container {
-    padding: 20px;
-  }
-}
-
 .salad-deposit-content {
   padding: 40px;
 
@@ -65,7 +36,7 @@
     margin-top: 10px !important;
     margin-bottom: 2px !important;
   }
-  .inner-header {
+  .deposit-header {
     font-weight: 400;
     margin-top: 1px !important;
     margin-bottom: 20px !important;

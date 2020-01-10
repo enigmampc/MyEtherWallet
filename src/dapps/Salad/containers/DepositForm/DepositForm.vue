@@ -2,16 +2,7 @@
   <div class="salad-deposit-form">
     <div class="form">
       <b-container>
-        <b-row>
-          <b-col cols="6" md="6">
-            <h4 class="inner-header">{{ $t('salad.desc2') }}</h4>
-          </b-col>
-          <b-col cols="6" md="6">
-            <h4 class="inner-header">
-              {{ $t('salad.nextMix-label', ['00:33:21']) }}
-            </h4>
-          </b-col>
-        </b-row>
+        <salad-header></salad-header>
         <b-row>
           <div class="deposit-info">
             <span class="depositAddress-label">
@@ -52,25 +43,15 @@
           </div>
         </b-row>
 
-        <b-row>
-          <b-col cols="12" md="12">
-            <p class="mixAmount-label">
-              {{ $t('salad.mixAmount-label', ['1']) }}
-            </p>
-          </b-col>
-        </b-row>
-
-        <b-row>
-          <b-col cols="12" md="12">
-            <p class="mixTime-label">{{ $t('salad.mixTime-label', ['2']) }}</p>
-          </b-col>
-        </b-row>
+        <salad-footer></salad-footer>
       </b-container>
     </div>
   </div>
 </template>
 
 <script>
+import SaladFooter from '../../components/SaladFooter';
+import SaladHeader from '../../components/SaladHeader';
 import { mapState } from 'vuex';
 import SaladMixer from './SaladMixer.js';
 import {
@@ -88,6 +69,10 @@ export default {
       isValidDeliveryAddress: false,
       deliveryAddressErrMsg: ''
     };
+  },
+  components: {
+    'salad-footer': SaladFooter,
+    'salad-header': SaladHeader
   },
   computed: {
     ...mapState(['web3', 'account', 'network', 'online']),
