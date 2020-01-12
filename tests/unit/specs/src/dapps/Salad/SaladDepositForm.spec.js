@@ -1,8 +1,8 @@
 import Vue from 'vue';
 import { shallowMount } from '@vue/test-utils';
 import DepositForm from '@/dapps/Salad/containers/DepositForm';
-import InterfaceBottomText from '@/components/InterfaceBottomText';
 import { Tooling } from '@@/helpers';
+import web3 from 'web3';
 
 describe('DepositForm.vue', () => {
   let localVue, i18n, wrapper, store;
@@ -14,7 +14,7 @@ describe('DepositForm.vue', () => {
     store = baseSetup.store;
     Vue.config.warnHandler = () => {};
   });
- 
+
   beforeEach(() => {
     wrapper = shallowMount(DepositForm, {
       localVue,
@@ -54,7 +54,39 @@ describe('DepositForm.vue', () => {
     wrapper.setData({ deliveryAddress });
 
     expect(wrapper.vm.$data.deliveryAddressErrMsg).toEqual(
-      'DeliveryAddress be a valid Ethereum address'
+      'DeliveryAddress must be a valid Ethereum address'
     );
+  });
+
+  it('deliveryAddress is valid', () => {
+    const deliveryAddress = '0x0';
+    wrapper.setData({ deliveryAddress });
+
+    expect(wrapper.vm.$data.deliveryAddressErrMsg).toEqual(
+      'DeliveryAddress must be a valid Ethereum address'
+    );
+  });
+
+  it('should set an error message if balance is too low', () => {
+    const mixAmount = '1';
+    wrapper.setData({ mixAmount });
+    wrapper.setData({ account: { balance: 0 } });
+
+    const deliveryAddress = wrapper.vm.account.address;
+    wrapper.setData({ deliveryAddress });
+
+    expect(wrapper.vm.hasEnoughEth).toBe(false);
+  });
+
+  it('valid eth balance', () => {
+    const mixAmount = '1';
+    wrapper.setData({ mixAmount });
+    
+    wrapper.setData({ account: { balance: web3.utils.toWei(mixAmount, 'ether') } });
+
+    const deliveryAddress = wrapper.vm.account.address;
+    wrapper.setData({ deliveryAddress });
+
+    expect(wrapper.vm.hasEnoughEth).toBe(true);
   });
 });

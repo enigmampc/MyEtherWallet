@@ -19,5 +19,6 @@
   "mixAmount-label": "Salad mixes {0} ETH at a time.",
   "mixTime-label": "Funds can take up to {0} hours to reach the destination address." , 
   "exit-dapp": "Exit Dapp",
-  "learn-more": "Learn More"
+  "learn-more": "Learn More",
+  "minimumEth-error": "You don't have enough ETH in your account for this transaction."
 }

@@ -10,6 +10,6 @@ export default function SaladMixer(account, web3) {
     testMode: false,
     network: "auto",
   }
-
+  
   return salad;
 };

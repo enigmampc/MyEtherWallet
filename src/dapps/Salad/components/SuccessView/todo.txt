@@ -1,2 +1,0 @@
-- show tx details
-- show the deal status and message

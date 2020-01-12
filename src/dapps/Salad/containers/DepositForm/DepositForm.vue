@@ -16,6 +16,13 @@
             </span>
           </div>
         </b-row>
+        <b-row>
+            <div class="sub-text">
+              <p v-if="!hasEnoughEth" class="above-min">
+                {{ $t('salad.minimumEthErrMsg') }}
+              </p>
+            </div>
+        </b-row>
 
         <b-row>
           <b-col>
@@ -54,11 +61,8 @@ import SaladFooter from '../../components/SaladFooter';
 import SaladHeader from '../../components/SaladHeader';
 import { mapState } from 'vuex';
 import SaladMixer from './SaladMixer.js';
-import {
-  isValidChecksumAddress as isValidRSKChecksumAddress,
-  toChecksumAddress as toRSKChecksumAddress
-} from 'rskjs-util';
 import { toChecksumAddress } from 'web3-utils';
+import BigNumber from 'bignumber.js';
 
 export default {
   data: function() {
@@ -67,7 +71,8 @@ export default {
       nextMix: '',
       message: '',
       isValidDeliveryAddress: false,
-      deliveryAddressErrMsg: ''
+      deliveryAddressErrMsg: '',
+      mixAmount: 0.001
     };
   },
   components: {
@@ -83,6 +88,22 @@ export default {
         !this.deliveryAddressErrMsg
       );
     },
+    hasEnoughEth() {
+      const accountBalance = this.web3.utils.fromWei(
+        new BigNumber(this.account.balance).toFixed(),
+        'ether'
+      );
+      
+      return accountBalance >= this.mixAmount;
+    },
+    hasEnoughEng() {
+      console.log('checking eng');
+      // todo check user's contract balance
+      return true;
+    },
+    canProceed() {
+      return this.hasEnoughEth && this.hasEnoughEng;
+    },
   },
   mounted() {
     this.init();
@@ -94,7 +115,7 @@ export default {
           this.isValidDeliveryAddress = true;
           this.deliveryAddressErrMsg = '';
         } catch (error) {
-          this.deliveryAddressErrMsg = 'DeliveryAddress be a valid Ethereum address';
+          this.deliveryAddressErrMsg = 'DeliveryAddress must be a valid Ethereum address';
         }
     }
   },
@@ -102,6 +123,7 @@ export default {
     init() {
       const account = {
         address: this.account.address,
+        balance: this.account.balance,
         netId: this.network.type.chainID.toString()
       };
       this.saladMixer = new SaladMixer(account, this.web3);
@@ -114,8 +136,9 @@ export default {
         this.account.address.substring(this.account.address.length - 3)
       );
     },
-    async startDeposit() {
-      // todo startDeposit
+    startDeposit() {
+      if (!this.canProceed) return;
+      this.$emit('depositStarted', this.deliveryAddress);
     }
   }
 };

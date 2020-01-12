@@ -1,10 +1,15 @@
 <template>
-  <div class="salad-footer">
+  <div class="transaction-details">
     <div>
       <b-container>
         <b-row>
+          <h4 class="salad-header">{{ $t('salad.txDetailsHeader') }}</h4>
+        </b-row>
+        <b-row>
           <b-col cols="12" md="12">
-            <p class="mixAmount-label">{{ $t('salad.mixAmount-label', ['1']) }}</p>
+            <p class="amountSent-label">
+              {{ $t('salad.amountSent-label', ['1']) }}
+            </p>
           </b-col>
         </b-row>
 
@@ -14,14 +19,11 @@
           </b-col>
         </b-row>
       </b-container>
-
-      <div class="text-center">
-        <a href="#">{{ $t('salad.learn-more') }}</a>
-      </div>
     </div>
   </div>
 </template>
-
+export default {
+}
 <style lang="scss" scoped>
-@import 'SaladFooter.scss';
+@import 'TransactionDetails.scss';
 </style>

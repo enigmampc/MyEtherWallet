@@ -1,0 +1,60 @@
+@import '~@/scss/GlobalVariables';
+
+.salad-confirmation-form {
+  padding: 20px;
+  
+  .confirmation-header {
+    font-weight: 400;
+    margin-top: 1px !important;
+    margin-bottom: 20px !important;
+  }
+  .confirmation-container {
+    .confirmation-btn-container {
+      margin: 10px 10px 10px;
+      background-color: 'CDF2EE' !important;
+      color: 'CDF2EE';
+    }
+  }
+  .buttons-container {
+    margin-top: 60px;
+    margin-bottom: 60px;
+    display: flex;
+    flex-direction: row;
+    align-content: space-between;
+    justify-content: center;
+
+    // Mobile
+    @media all and (max-width: $mobile-width) {
+      margin-top: 30px;
+    }
+
+    button {
+      margin: auto;
+      text-align: center;
+      border-radius: 5px;
+      cursor: pointer;
+      padding: 20px;
+      width: 260px;
+
+      // Mobile
+      @media all and (max-width: $mobile-width) {
+        width: 100%;
+      }
+    }
+
+    .submit-btn {
+      width: 260px;
+      height: 62px;
+      border-radius: 4px;
+      background-color: #7070E3;
+    }
+
+    .cancel-btn {
+      background-color: $white;
+      width: 260px;
+      height: 62px;
+      border-radius: 4px;
+      background-color: #05c0a5;
+    }
+  }
+}

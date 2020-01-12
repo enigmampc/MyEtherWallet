@@ -1,9 +1,9 @@
 import Vue from 'vue';
 import { shallowMount } from '@vue/test-utils';
-import SaladMix from '@/dapps/Salad/containers/SaladMix';
+import SaladMixContent from '@/dapps/Salad/containers/SaladMixContent';
 import { Tooling } from '@@/helpers';
 
-describe('SaladMix.vue', () => {
+describe('SaladMixContent.vue', () => {
   let localVue, i18n, wrapper, store;
 
   beforeAll(() => {
@@ -15,7 +15,7 @@ describe('SaladMix.vue', () => {
   });
 
   beforeEach(() => {
-    wrapper = shallowMount(SaladMix, {
+    wrapper = shallowMount(SaladMixContent, {
       localVue,
       i18n,
       store,
@@ -23,7 +23,16 @@ describe('SaladMix.vue', () => {
     });
   });
 
-  it('renders title', () => {
-    expect(wrapper.find('.title-container').text()).toEqual('Salad');
+  afterEach(() => {
+    wrapper.destroy();
   });
+
+  it('should return the correct data', () => {
+    expect(wrapper.vm.$data.deliveryAddress).toEqual('');
+    expect(wrapper.vm.$data.mixAmount).toEqual('1');
+    expect(wrapper.vm.$data.newDeposit).toEqual(true);
+  });
+
+//   todo emit event, test the content
+
 });
