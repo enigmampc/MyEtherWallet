@@ -20,5 +20,6 @@
   "mixTime-label": "Funds can take up to {0} hours to reach the destination address." , 
   "exit-dapp": "Exit Dapp",
   "learn-more": "Learn More",
+  "feeCalculation-label": "How are fees calculated?",
   "minimumEth-error": "You don't have enough ETH in your account for this transaction."
 }

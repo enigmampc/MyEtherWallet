@@ -25,6 +25,10 @@
           </span>
         </b-row>
 
+        <b-row>
+          <a href="#">{{ $t('salad.feeCalculation-label') }}</a>
+        </b-row>
+
         <b-row class="confirmation-container">
           <div class="buttons-container">
             <b-button class="submit-btn" @click="cancel()">
