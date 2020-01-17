@@ -15,6 +15,7 @@ import ConfirmationForm from '../ConfirmationForm';
 import { mapState } from 'vuex';
 import SaladMixer from '../../SaladMixer.js';
 import { toChecksumAddress } from 'web3-utils';
+import { Toast } from '@/helpers';
 
 export default {
   components: {
@@ -23,7 +24,7 @@ export default {
   },
   data: function() {
     return {
-      mixAmount: "0.1",
+      mixAmount: "0.01",
       newDeposit: true,
       deliveryAddress: '',
       isSubmitting: false,
@@ -80,36 +81,35 @@ export default {
       
       console.log(`account = ${sender}`)
       console.log('Submitted:', sender, recipient, amount);
-      // this.isSubmitting = true;
       try {
           const amountInWei = this.web3.utils.toWei(amount);
           
           const depositReceipt = await this.salad.makeDepositAsync(sender, amountInWei);
-          // todo toast
-          // openSnackbar({message: `Deposit made with tx: ${depositReceipt.transactionHash}`});
+          Toast.responseHandler(`Deposit made with tx: ${depositReceipt.transactionHash}`, Toast.INFO);
+          
           console.log('Deposit made', depositReceipt);
           console.log('Encrypting recipient', recipient);
           const encRecipient = await this.salad.encryptRecipientAsync(recipient);
           console.log(`The encrypted recipient ${encRecipient}`);
           const myPubKey = this.salad.keyPair.publicKey;
-          console.log(`Signing deposit payload (${sender}, ${amountInWei}, ${encRecipient}, ${myPubKey}`);
+          console.log(`Signing deposit payload ${sender}, ${amountInWei}, ${encRecipient}, ${myPubKey}`);
           
+          debugger
+          console.log('test');
           const signature = await this.salad.signDepositMetadataAsync(sender, amountInWei, encRecipient, myPubKey);
           console.log('Deposit payload signed', signature);
           // The public key of the user must be submitted
           // This is DH encryption, Enigma needs the user pub key to decrypt the data
           await this.salad.submitDepositMetadataAsync(sender, amountInWei, encRecipient, myPubKey, signature);
           console.log('Deposit metadata submitted');
-          // todo toast
-          // openSnackbar({message: 'Deposit accepted by the Relayer'});
+          
+          Toast.responseHandler(`Deposit accepted by the Relayer`, Toast.INFO);
           this.isSubmitting = false;
           this.isPending = true;
           // todo reset mix
           // this.props.reset('mix');
       } catch (e) {
-        // todo toast error
-          // openSnackbar({message: `Error with your deposit: ${e.message}`});
-          console.error('Unable to make deposit', e);
+          Toast.responseHandler(`Error with your deposit: ${e.message}`, Toast.ERROR);
           
           this.err = e
           // todo debugger

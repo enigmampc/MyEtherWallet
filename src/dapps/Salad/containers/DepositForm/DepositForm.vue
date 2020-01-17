@@ -72,7 +72,7 @@ export default {
       message: '',
       isValidDeliveryAddress: false,
       deliveryAddressErrMsg: '',
-      mixAmount: 0.1
+      mixAmount: 0.01
     };
   },
   components: {
