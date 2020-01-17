@@ -1,0 +1,5 @@
+const REACT_APP_OPERATOR_URL = 'ws://127.0.0.1:8090';
+
+export {
+    REACT_APP_OPERATOR_URL
+};

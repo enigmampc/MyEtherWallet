@@ -28,9 +28,12 @@
     "update:swap": "node compileBaseSwapOptions.js"
   },
   "dependencies": {
+    "@salad/client": "file:../salad_11.15/client",
     "@sentry/browser": "5.10.2",
     "@sentry/integrations": "5.10.2",
     "core-js": "3.6.1",
+    "enigma-js": "0.3.0",
+    "eth-crypto": "^1.5.0",
     "html2canvas": "1.0.0-rc.5",
     "idna-uts46": "1.1.0",
     "js-sha1": "0.6.0",

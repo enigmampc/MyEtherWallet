@@ -52,32 +52,20 @@ import SaladFooter from '../../components/SaladFooter';
 import SaladHeader from '../../components/SaladHeader';
 
 export default {
-  computed: {
-    ...mapState(['web3', 'account', 'network', 'online'])
-  },
   data: function() {
     return {
-      mixAmount: '1',
-      
+      // todo pass from config
+      mixAmount: '0.1'
     };
   },
   components: {
     'salad-footer': SaladFooter,
     'salad-header': SaladHeader,
   },
-  mounted() {
-    this.init();
-  },
   methods: {
-    init() {
-      const account = {
-        address: this.account.address,
-        netId: this.network.type.chainID.toString()
-      };
-    },
-    confirm() {
-      console.log('confirming');
-      // todo confirmation
+    confirm () {
+        console.log('confirming');
+        this.$emit("confirmDeposit");
     },
     cancel() {
       this.$emit("cancelDeposit");

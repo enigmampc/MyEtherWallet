@@ -60,9 +60,9 @@
 import SaladFooter from '../../components/SaladFooter';
 import SaladHeader from '../../components/SaladHeader';
 import { mapState } from 'vuex';
-import SaladMixer from './SaladMixer.js';
 import { toChecksumAddress } from 'web3-utils';
 import BigNumber from 'bignumber.js';
+import { Toast } from '@/helpers';
 
 export default {
   data: function() {
@@ -72,7 +72,7 @@ export default {
       message: '',
       isValidDeliveryAddress: false,
       deliveryAddressErrMsg: '',
-      mixAmount: 0.001
+      mixAmount: 0.1
     };
   },
   components: {
@@ -126,7 +126,6 @@ export default {
         balance: this.account.balance,
         netId: this.network.type.chainID.toString()
       };
-      this.saladMixer = new SaladMixer(account, this.web3);
     },
     maskCurrentAddress: function() {
       // Return masked address, eg "0xDECAF....68D"

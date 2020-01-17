@@ -29,7 +29,7 @@ describe('SaladMixContent.vue', () => {
 
   it('should return the correct data', () => {
     expect(wrapper.vm.$data.deliveryAddress).toEqual('');
-    expect(wrapper.vm.$data.mixAmount).toEqual('1');
+    expect(wrapper.vm.$data.mixAmount).toEqual("0.1");
     expect(wrapper.vm.$data.newDeposit).toEqual(true);
   });
 
