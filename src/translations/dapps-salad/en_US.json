@@ -23,11 +23,12 @@
   "learn-more": "Learn More",
   "feeCalculation-label": "How are fees calculated?",
   "minimumEthErrMessage": "You don't have enough ETH in your account for this transaction.",
-  "saladSuccessHeader": "Status: Pending Deal",
+  "saladSuccessHeader": "Success! Your salad is being tossed!",
   "pendingStatus": "Status: Pending Deal",
   "pendingStatusMessage": "Your deposit has been made, and you will see funds in your recipient account in approximately {0} minutes.",
   "submittedStatus": "Status: Deal Submitted",
   "submittedStatusMessage": "Your deposit has been made, and you will see funds in your recipient account in just a few minutes.",
   "completedStatus": "Status: Deal Complete",
-  "completedStatusMessage": "Your deposit has been made, and you should see funds in your recipient account now."
+  "completedStatusMessage": "Your deposit has been made, and you should see funds in your recipient account now.",
+  "validRecipientErrMessage": "RecipientAddress must be a valid Ethereum address."
 }

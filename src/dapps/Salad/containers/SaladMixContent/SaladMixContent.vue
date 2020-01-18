@@ -1,10 +1,13 @@
 <template>
   <div class="salad-mix-content">
-    <div v-if="newDeposit">
+    <div v-if="page == 'newDeposit'">
       <deposit-form @depositStarted="depositStarted"></deposit-form>
     </div>
-    <div v-else>
+    <div v-else-if="page == 'confirmDeposit'">
       <confirmation-form @cancelDeposit="cancelDeposit" @confirmDeposit="confirmDeposit"></confirmation-form>
+    </div>
+    <div v-else-if="page == 'success'">
+      <success-form @startNewMix="startNewMix"></success-form>
     </div>
   </div>
 </template>
@@ -12,6 +15,7 @@
 <script>
 import DepositForm from '../DepositForm';
 import ConfirmationForm from '../ConfirmationForm';
+import SuccessForm from '../SuccessForm';
 import { mapState } from 'vuex';
 import SaladMixer from '../../SaladMixer.js';
 import { toChecksumAddress } from 'web3-utils';
@@ -21,21 +25,23 @@ export default {
   components: {
     'deposit-form': DepositForm,
     'confirmation-form': ConfirmationForm,
+    'success-form': SuccessForm
   },
   data: function() {
     return {
+      page: 'newDeposit',
       mixAmount: "0.01",
-      newDeposit: true,
       deliveryAddress: '',
       isSubmitting: false,
       isPending: false,
-      page: 0,
       blockCountdown: 0,
       quorum: 0,
       threshold: 0,
       err: null,
       deal: null,
-      salad: null
+      salad: null,
+      successStatusHeader: '',
+      successStatusMessage: '',
     };
   },
   watch: {
@@ -50,6 +56,11 @@ export default {
     isPending(newVal) {
       console.log(`isPending = ${newVal}`);
       this.isPending = newVal;
+      if (this.isPending) {
+        this.successStatusHeader = 'pending status'
+      } else {
+        this.successStatusHeader = 'not pending status'
+      }
       // todo handle isPending
     },
     quorum(newVal) {
@@ -62,6 +73,7 @@ export default {
     },
     deal(newVal) {
       console.log(`deal = ${newVal}`);
+      debugger
       // todo handle deal
     }
   },
@@ -74,10 +86,10 @@ export default {
   methods: {
     depositStarted(deliveryAddress) {
       this.deliveryAddress = deliveryAddress;
-      this.newDeposit = false;
+      this.page = 'confirmDeposit';
     },
     cancelDeposit() {
-      this.newDeposit = true
+      this.page = 'newDeposit';
     },
     resetMix() {
       // todo refactor to simplify reset
@@ -89,6 +101,7 @@ export default {
       const amount = this.mixAmount;
       
       this.isSubmitting = true;
+      this.page = 'success';
       try {
           const amountInWei = this.web3.utils.toWei(amount);
           
@@ -153,6 +166,10 @@ export default {
         this.isPending = false;
       });
     },
+    startNewMix() {
+      // todo
+      console.log('starting a new mix');
+    }
   }
 };
 </script>

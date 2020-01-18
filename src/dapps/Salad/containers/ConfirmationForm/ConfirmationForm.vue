@@ -3,37 +3,7 @@
     <div class="form">
       <b-container>
         <salad-header></salad-header>
-        <b-row>
-          <b-col>
-            <h4 class="salad-header">
-              {{ $t('salad.txDetailsHeader') }}
-            </h4>
-          </b-col>
-        </b-row>
-        <b-row>
-          <b-col>
-            <span class="amountSent-label">
-              {{ $t('salad.amountSent-label', ['1']) }}
-            </span>
-          </b-col>
-        </b-row>
-        <b-row>
-          <b-col>
-            <span class="amountReceived-label">
-              {{ $t('salad.amountReceived-label', ['0.989 ETH']) }}
-            </span>
-          </b-col>
-        </b-row>
-        <b-row>
-          <b-col>
-            <span class="totalFees-label">
-              {{ $t('salad.totalFees-label', ['0.011']) }}
-            </span>
-          </b-col>
-          <b-col>
-            <a href="#">{{ $t('salad.feeCalculation-label') }}</a>
-          </b-col>
-        </b-row>
+        <transaction-details></transaction-details>
 
         <b-row>
           <div v-if="isSubmitting" class="buttons-container">
@@ -49,15 +19,6 @@
             </b-col>
           </div>
         </b-row>
-        <b-row v-if="!isSubmitting">
-          <div class="status-container">
-            <h4 class="salad-header">
-              {{ isPending ? $t('salad.pendingStatus') : $t('salad.confirmed-status') }}
-            </h4>
-            <b-col>
-            </b-col>
-          </div>
-        </b-row>
         
         <salad-footer></salad-footer>
       </b-container>
@@ -68,6 +29,7 @@
 <script>
 import SaladFooter from '../../components/SaladFooter';
 import SaladHeader from '../../components/SaladHeader';
+import TransactionDetails from '../../components/TransactionDetails';
 
 export default {
   data: function() {
@@ -76,15 +38,12 @@ export default {
       mixAmount: '0.01',
       isSubmitting: true,
       isPending: false,
-      statusHeader: '',
-      statusMessage: ''
-      
-
     };
   },
   components: {
     'salad-footer': SaladFooter,
     'salad-header': SaladHeader,
+    'transaction-details': TransactionDetails,
   },
   methods: {
     confirm () {

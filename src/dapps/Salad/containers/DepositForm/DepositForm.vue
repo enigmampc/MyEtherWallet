@@ -10,7 +10,7 @@
                 {{ $t('salad.depositAddress-label') }}
               </span>
               <span class="currentAddress">
-                {{ maskCurrentAddress() }}
+                {{ maskedCurrentAddress }}
               </span>
               <span class="depositAddress-label">
                 {{ $t('salad.depositAddress-label2') }}
@@ -41,12 +41,12 @@
             <div class="deliveryAddress-input">
               <input :placeholder="$t('salad.deliveryAddress-ph')" type="text" 
                   v-model="deliveryAddress"/>
-              <p v-show="deliveryAddressErrMessage" class="sub-text err-msg">
-                {{ $t('salad.deliveryAddressErrMessage') }}
+              <p v-if="!isValidDeliveryAddress" class="sub-text err-msg">
+                {{ $t('salad.validRecipientErrMessage') }}
               </p>
             </div>
           </b-col>
-          
+
           <b-col>
             <div class="deposit-btn-container">
               <b-button :class="[isValidInput ? '' : 'disabled']"
@@ -76,11 +76,11 @@ export default {
   data: function() {
     return {
       currentAddress: '',
+      maskedCurrentAddress: '',
       deliveryAddress: '',
       nextMix: '',
       message: '',
-      isValidDeliveryAddress: false,
-      deliveryAddressErrMessage: '',
+      isValidDeliveryAddress: true,
       mixAmount: 0.01
     };
   },
@@ -92,9 +92,8 @@ export default {
     ...mapState(['web3', 'account', 'network', 'online']),
     isValidInput() {
       return (
-        this.isValidDeliveryAddress &&
-        this.deliveryAddress &&
-        !this.deliveryAddressErrMessage
+        // must have entered an address and it must be valid checksum
+        this.deliveryAddress && this.isValidDeliveryAddress
       );
     },
     hasEnoughEth() {
@@ -119,25 +118,17 @@ export default {
   },
   watch: {
     deliveryAddress(newVal) {
-        try {
-          this.deliveryAddress = toChecksumAddress(newVal);
-          this.isValidDeliveryAddress = true;
-          this.deliveryAddressErrMessage = '';
-        } catch (error) {
-          this.deliveryAddressErrMessage = 'DeliveryAddress must be a valid Ethereum address';
-        }
+      try {
+        console.log(`validating ${newVal}`);
+        this.deliveryAddress = toChecksumAddress(newVal);
+        this.isValidDeliveryAddress = true;
+        this.deliveryAddressErrMessage = '';
+      } catch (error) {
+        this.isValidDeliveryAddress = false;
+      }
     },
-    currentAddress(newVal) {
-      return this.hasEnoughEth
-    }
   },
   methods: {
-    init() {
-      // listen for account change
-      window.ethereum.on('accountsChanged', account => {
-        this.currentAddress = account[0];
-      });
-    },
     maskCurrentAddress: function() {
       // Return masked address, eg "0xDECAF....68D"
       return (
@@ -145,6 +136,16 @@ export default {
         '....' +
         this.currentAddress.substring(this.currentAddress.length - 3)
       );
+    },
+    init() {
+      this.currentAddress = this.account.address;
+      this.maskedCurrentAddress = this.maskCurrentAddress();
+
+      // listen for account change
+      window.ethereum.on('accountsChanged', account => {
+        this.currentAddress = account[0];
+        this.maskedCurrentAddress = this.maskCurrentAddress();        
+      });
     },
     startDeposit() {
       if (!this.canProceed) return;
