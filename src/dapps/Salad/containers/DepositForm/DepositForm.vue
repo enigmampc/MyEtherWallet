@@ -5,23 +5,27 @@
         <salad-header></salad-header>
         <b-row>
           <div class="deposit-info">
-            <span class="depositAddress-label">
-              {{ $t('salad.depositAddress-label') }}
-            </span>
-            <span class="currentAddress">
-              {{ maskCurrentAddress() }}
-            </span>
-            <span class="depositAddress-label">
-              {{ $t('salad.depositAddress-label2') }}
-            </span>
+            <b-col>
+              <span class="depositAddress-label">
+                {{ $t('salad.depositAddress-label') }}
+              </span>
+              <span class="currentAddress">
+                {{ maskCurrentAddress() }}
+              </span>
+              <span class="depositAddress-label">
+                {{ $t('salad.depositAddress-label2') }}
+              </span>
+            </b-col>
           </div>
         </b-row>
         <b-row>
+            <b-col>
             <div class="sub-text">
-              <p v-if="!hasEnoughEth" class="above-min">
-                {{ $t('salad.minimumEthErrMsg') }}
+              <p v-if="!hasEnoughEth" class="err-msg">
+                {{ $t('salad.minimumEthErrMessage') }}
               </p>
             </div>
+            </b-col>
         </b-row>
 
         <b-row>
@@ -33,21 +37,25 @@
         </b-row>
 
         <b-row class="deposit-container">
-          <div class="deliveryAddress-input">
-            <input :placeholder="$t('salad.deliveryAddress-ph')" type="text" 
-                v-model="deliveryAddress"/>
-            <p v-show="deliveryAddressErrMsg" class="sub-text err-msg">
-              {{ deliveryAddressErrMsg }}
-            </p>
-          </div>
-        
-          <div class="deposit-btn-container">
-            <b-button :class="[isValidInput ? '' : 'disabled']"
-                      class="mew-btn startDeposit-btn"
-                      @click="startDeposit()">
-              {{ $t('salad.startDeposit-button') }}
-            </b-button>
-          </div>
+          <b-col>
+            <div class="deliveryAddress-input">
+              <input :placeholder="$t('salad.deliveryAddress-ph')" type="text" 
+                  v-model="deliveryAddress"/>
+              <p v-show="deliveryAddressErrMessage" class="sub-text err-msg">
+                {{ $t('salad.deliveryAddressErrMessage') }}
+              </p>
+            </div>
+          </b-col>
+          
+          <b-col>
+            <div class="deposit-btn-container">
+              <b-button :class="[isValidInput ? '' : 'disabled']"
+                        class="submit-btn startDeposit-btn"
+                        @click="startDeposit()">
+                {{ $t('salad.startDeposit-button') }}
+              </b-button>
+            </div>
+          </b-col>
         </b-row>
 
         <salad-footer></salad-footer>
@@ -67,11 +75,12 @@ import { Toast } from '@/helpers';
 export default {
   data: function() {
     return {
+      currentAddress: '',
       deliveryAddress: '',
       nextMix: '',
       message: '',
       isValidDeliveryAddress: false,
-      deliveryAddressErrMsg: '',
+      deliveryAddressErrMessage: '',
       mixAmount: 0.01
     };
   },
@@ -85,7 +94,7 @@ export default {
       return (
         this.isValidDeliveryAddress &&
         this.deliveryAddress &&
-        !this.deliveryAddressErrMsg
+        !this.deliveryAddressErrMessage
       );
     },
     hasEnoughEth() {
@@ -109,30 +118,32 @@ export default {
     this.init();
   },
   watch: {
-      deliveryAddress(newVal) {
+    deliveryAddress(newVal) {
         try {
           this.deliveryAddress = toChecksumAddress(newVal);
           this.isValidDeliveryAddress = true;
-          this.deliveryAddressErrMsg = '';
+          this.deliveryAddressErrMessage = '';
         } catch (error) {
-          this.deliveryAddressErrMsg = 'DeliveryAddress must be a valid Ethereum address';
+          this.deliveryAddressErrMessage = 'DeliveryAddress must be a valid Ethereum address';
         }
+    },
+    currentAddress(newVal) {
+      return this.hasEnoughEth
     }
   },
   methods: {
     init() {
-      const account = {
-        address: this.account.address,
-        balance: this.account.balance,
-        netId: this.network.type.chainID.toString()
-      };
+      // listen for account change
+      window.ethereum.on('accountsChanged', account => {
+        this.currentAddress = account[0];
+      });
     },
     maskCurrentAddress: function() {
       // Return masked address, eg "0xDECAF....68D"
       return (
-        this.account.address.substring(0, 7) +
+        this.currentAddress.substring(0, 7) +
         '....' +
-        this.account.address.substring(this.account.address.length - 3)
+        this.currentAddress.substring(this.currentAddress.length - 3)
       );
     },
     startDeposit() {

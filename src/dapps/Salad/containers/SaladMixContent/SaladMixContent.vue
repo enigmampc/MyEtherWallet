@@ -44,11 +44,12 @@ export default {
       // todo handle blockCountdown
     },
     isSubmitting(newVal) {
-      this.isSubmitting = newVal;
       console.log(`isSubmitting = ${newVal}`);
+      this.isSubmitting = newVal;
     },
     isPending(newVal) {
       console.log(`isPending = ${newVal}`);
+      this.isPending = newVal;
       // todo handle isPending
     },
     quorum(newVal) {
@@ -78,11 +79,16 @@ export default {
     cancelDeposit() {
       this.newDeposit = true
     },
+    resetMix() {
+      // todo refactor to simplify reset
+      this.cancelDeposit();
+    },
     async confirmDeposit() {
       const sender = toChecksumAddress(this.account.address);
       const recipient = this.deliveryAddress;
       const amount = this.mixAmount;
       
+      this.isSubmitting = true;
       try {
           const amountInWei = this.web3.utils.toWei(amount);
           
@@ -104,10 +110,6 @@ export default {
           console.log('Deposit metadata submitted');
           
           Toast.responseHandler(`Deposit accepted by the Relayer`, Toast.INFO);
-          this.isSubmitting = false;
-          this.isPending = true;
-          // todo reset mix
-          // this.props.reset('mix');
       } catch (e) {
           Toast.responseHandler(`Error with your deposit: ${e.message}`, Toast.ERROR);
           
@@ -141,6 +143,7 @@ export default {
         console.log(`onDealCreated ${payload.deal}`);
         this.deal = payload.deal;
         if (this.deal.participants.indexOf(this.salad.accounts[0]) !== -1) {
+          console.log('onDealCreated setting isPending = true')
           this.isPending = true;
         }
       });

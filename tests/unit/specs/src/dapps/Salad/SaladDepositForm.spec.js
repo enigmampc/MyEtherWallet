@@ -33,7 +33,7 @@ describe('DepositForm.vue', () => {
     expect(wrapper.vm.$data.nextMix).toEqual('');
     expect(wrapper.vm.$data.message).toEqual('');
     expect(wrapper.vm.$data.isValidDeliveryAddress).toEqual(false);
-    expect(wrapper.vm.$data.deliveryAddressErrMsg).toEqual('');
+    expect(wrapper.vm.$data.deliveryAddressErrMessage).toEqual('');
   });
 
   it('Renders masked currentAddress', () => {
@@ -53,7 +53,7 @@ describe('DepositForm.vue', () => {
     const deliveryAddress = '0x0';
     wrapper.setData({ deliveryAddress });
 
-    expect(wrapper.vm.$data.deliveryAddressErrMsg).toEqual(
+    expect(wrapper.vm.$data.deliveryAddressErrMessage).toEqual(
       'DeliveryAddress must be a valid Ethereum address'
     );
   });
@@ -62,7 +62,7 @@ describe('DepositForm.vue', () => {
     const deliveryAddress = '0x0';
     wrapper.setData({ deliveryAddress });
 
-    expect(wrapper.vm.$data.deliveryAddressErrMsg).toEqual(
+    expect(wrapper.vm.$data.deliveryAddressErrMessage).toEqual(
       'DeliveryAddress must be a valid Ethereum address'
     );
   });

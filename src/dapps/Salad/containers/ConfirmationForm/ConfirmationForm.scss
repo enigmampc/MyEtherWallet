@@ -15,6 +15,15 @@
       color: 'CDF2EE';
     }
   }
+
+  .status-container {
+    margin-top: 20px;
+    margin-bottom: 60px;
+    display: flex;
+    flex-direction: row;
+    align-content: space-between;
+    justify-content: center;
+  }
   .buttons-container {
     margin-top: 60px;
     margin-bottom: 60px;

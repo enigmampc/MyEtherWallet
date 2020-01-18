@@ -46,21 +46,25 @@
     font-weight: bold;
   }
 
-  .above-min {
+  .err-msg {
     margin-bottom: 2px;
     color: $red-1;
     font-weight: 600;
   }
 
   .deposit-container {
-    .deposit-btn-container {
-      margin: 10px 10px 10px;
-      background-color: 'CDF2EE' !important;
-      color: 'CDF2EE';
+    
+
+    .submit-btn {
+      width: 260px;
+      height: 62px;
+      border-radius: 4px;
+      background-color: #05C0A5;
     }
 
     .deliveryAddress-input {
-      margin: 10px 10px 10px;
+      padding: 13px 45px 13px 15px;
+      width: 100%;
     }
   }
   .deposit-info {

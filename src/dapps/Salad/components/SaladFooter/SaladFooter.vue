@@ -3,20 +3,24 @@
     <div>
       <b-container>
         <b-row>
-          <b-col cols="12" md="12">
+          <b-col>
             <p class="mixAmount-label">{{ $t('salad.mixAmount-label', ['1']) }}</p>
           </b-col>
         </b-row>
 
         <b-row>
-          <b-col cols="12" md="12">
+          <b-col>
             <p class="mixTime-label">{{ $t('salad.mixTime-label', ['2']) }}</p>
           </b-col>
         </b-row>
       </b-container>
 
       <div class="text-center">
-        <a href="#">{{ $t('salad.learn-more') }}</a>
+        <b-row>
+          <b-col>
+            <a href="#">{{ $t('salad.learn-more') }}</a>
+          </b-col>
+        </b-row>
       </div>
     </div>
   </div>
