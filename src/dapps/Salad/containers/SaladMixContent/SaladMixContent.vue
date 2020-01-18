@@ -41,21 +41,27 @@ export default {
   watch: {
     blockCountdown(newVal) {
       console.log(`blockCountdown = ${newVal}`);
+      // todo handle blockCountdown
     },
     isSubmitting(newVal) {
+      this.isSubmitting = newVal;
       console.log(`isSubmitting = ${newVal}`);
     },
     isPending(newVal) {
       console.log(`isPending = ${newVal}`);
+      // todo handle isPending
     },
     quorum(newVal) {
       console.log(`quorum = ${newVal}`);
+      // todo handle quorum
     },
     threshold(newVal) {
       console.log(`threshold = ${newVal}`);
+      // todo handle threshold
     },
     deal(newVal) {
       console.log(`deal = ${newVal}`);
+      // todo handle deal
     }
   },
   computed: {
@@ -73,14 +79,10 @@ export default {
       this.newDeposit = true
     },
     async confirmDeposit() {
-      console.log('SaladMixContent.vue mixConfirmed');
       const sender = toChecksumAddress(this.account.address);
-      console.log(`sender=${sender}`);
       const recipient = this.deliveryAddress;
       const amount = this.mixAmount;
       
-      console.log(`account = ${sender}`)
-      console.log('Submitted:', sender, recipient, amount);
       try {
           const amountInWei = this.web3.utils.toWei(amount);
           
@@ -94,8 +96,6 @@ export default {
           const myPubKey = this.salad.keyPair.publicKey;
           console.log(`Signing deposit payload ${sender}, ${amountInWei}, ${encRecipient}, ${myPubKey}`);
           
-          debugger
-          console.log('test');
           const signature = await this.salad.signDepositMetadataAsync(sender, amountInWei, encRecipient, myPubKey);
           console.log('Deposit payload signed', signature);
           // The public key of the user must be submitted
