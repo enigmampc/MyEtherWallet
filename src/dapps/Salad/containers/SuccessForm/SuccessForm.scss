@@ -3,9 +3,11 @@
 .salad-success-form {
   
   .success-header {
-    font-weight: 400;
-    color: '#05c0a5';
-    text-align: center;
+    h3 {
+      color: '#05c0a5';
+      font-weight: 400;
+      text-align: center;
+    }
   }
   .success-container {
     .success-btn-container {
