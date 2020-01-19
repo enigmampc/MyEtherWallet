@@ -11,7 +11,7 @@
         @startNewMix="startNewMix" 
         v-bind:successStatusHeader="successStatusHeader"
         v-bind:successStatusMessage="successStatusMessage" 
-        v-bind:dealId="deal.dealId">
+        v-bind:dealId="dealId">
       </success-form>
     </div>
   </div>
@@ -72,6 +72,7 @@ export default {
     },
     deal(newVal) {
       console.log(`deal = ${newVal}`);
+      this.deal = newVal;
       this.dealId = newVal.dealId;
     }
   },
