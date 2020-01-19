@@ -11,7 +11,8 @@
         @startNewMix="startNewMix" 
         v-bind:successStatusHeader="successStatusHeader"
         v-bind:successStatusMessage="successStatusMessage" 
-        v-bind:dealId="dealId">
+        v-bind:dealId="dealId"
+        v-bind:dealConfirmed="dealConfirmed">
       </success-form>
     </div>
   </div>
@@ -24,6 +25,12 @@ import { mapState } from 'vuex';
 import SaladMixer from '../../SaladMixer.js';
 import { toChecksumAddress } from 'web3-utils';
 import { Toast } from '@/helpers';
+
+const DEAL_STATUS = {
+    NEW: 0,
+    EXECUTABLE: 1,
+    EXECUTED: 2,
+};
 
 export default {
   components: {
@@ -46,8 +53,12 @@ export default {
       salad: null,
       successStatusHeader: this.$t('salad.pendingStatus'),
       successStatusMessage: this.$t('salad.pendingStatusMessage'),
-      dealId: ''
+      dealId: '',
+      dealConfirmed: false
     };
+  },
+  computed: {
+    ...mapState(['web3', 'account', 'network', 'online'])
   },
   watch: {
     blockCountdown(newVal) {
@@ -55,13 +66,10 @@ export default {
       // todo handle blockCountdown
     },
     isSubmitting(newVal) {
-      console.log(`isSubmitting = ${newVal}`);
       this.isSubmitting = newVal;
     },
     isPending(newVal) {
-      console.log(`isPending = ${newVal}`);
       this.isPending = newVal;
-      // todo handle state changes
       if (this.isPending) {
         this.successStatusHeader = this.$t('salad.pendingStatus');
         this.successStatusMessage = this.$t('salad.pendingStatusMessage');
@@ -71,13 +79,14 @@ export default {
       }
     },
     deal(newVal) {
-      console.log(`deal = ${newVal}`);
       this.deal = newVal;
       this.dealId = newVal.dealId;
+      if (this.deal.status == DEAL_STATUS.EXECUTED) {
+        this.successStatusHeader = this.$t('salad.completedStatus');
+        this.successStatusMessage = this.$t('salad.completedStatusMessage');
+        this.dealConfirmed = true;
+      }
     }
-  },
-  computed: {
-    ...mapState(['web3', 'account', 'network', 'online'])
   },
   mounted() {
     this.initSalad();
@@ -89,11 +98,11 @@ export default {
       this.page = 'confirmDeposit';
     },
     cancelDeposit() {
-      this.page = 'newDeposit';
+      this.startNewMix();
     },
-    resetMix() {
-      // todo refactor to simplify reset
-      this.cancelDeposit();
+    startNewMix() {
+      this.page = 'newDeposit';
+      this.deliveryAddress = ''
     },
     async confirmDeposit() {
       const sender = toChecksumAddress(this.account.address);
@@ -165,10 +174,6 @@ export default {
         this.deal = payload.deal;
         this.isPending = false;
       });
-    },
-    startNewMix() {
-      // todo
-      console.log('starting a new mix');
     }
   }
 };

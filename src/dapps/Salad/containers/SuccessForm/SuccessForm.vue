@@ -12,7 +12,7 @@
         </b-row>
         <transaction-details></transaction-details>
         <b-container>
-          <b-row>
+          <b-row v-if="dealId">
             <b-col>
               <span class="dealId-label">
                 {{ $t('salad.dealId-label')}}
@@ -36,7 +36,18 @@
               </h3>
             </b-col>
           </b-row>
+          <b-row>
+            <b-col>
+              <div v-if="dealConfirmed" class="success-btn-container">
+                <b-button class="submit-btn"
+                          v-on:click="$emit('startNewMix')">
+                  {{ $t('salad.startNewMix-button') }}
+                </b-button>
+              </div>
+            </b-col>
+          </b-row>
         </b-container>
+        <salad-footer></salad-footer>
       </b-container>
     </div>
   </div>
@@ -46,23 +57,19 @@
 <script>
 import SaladHeader from '../../components/SaladHeader';
 import TransactionDetails from '../../components/TransactionDetails';
+import SaladFooter from '../../components/SaladFooter';
 
 export default {
   components: {
     'salad-header': SaladHeader,
     'transaction-details': TransactionDetails,
+    'salad-footer': SaladFooter
   },
   props: {
-    successStatusHeader: String,
+    successStatusHeader: String, 
     successStatusMessage: String,
-    dealId: String
-  },
-  methods: {
-    startNewMix () {
-      // todo start a new mix
-      console.log('startNewMix');
-      this.$emit("startNewMix");
-    },
+    dealId: String,
+    dealConfirmed: Boolean
   }
 };
 </script>

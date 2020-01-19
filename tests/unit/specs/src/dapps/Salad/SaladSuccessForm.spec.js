@@ -22,7 +22,8 @@ describe('SuccessForm.vue', () => {
       propsData: {
         successStatusHeader: '',
         successStatusMessage: '',
-        dealId: ''
+        dealId: '',
+        dealConfirmed: false
       },
     });
   });
@@ -31,8 +32,16 @@ describe('SuccessForm.vue', () => {
     expect(wrapper.vm.$props.successStatusHeader).toEqual('');
     expect(wrapper.vm.$props.successStatusMessage).toEqual('');
     expect(wrapper.vm.$props.dealId).toEqual('');
+    expect(wrapper.vm.$props.dealConfirmed).toEqual(false);
   });
 
-//   todo render tests
+    // todo test that button is present when the deal is confirmed
+  xit('New mix button is not present until new deal is confirmed', () => {
+
+    expect(wrapper.classes()).not.toContain('success-btn-container');
+    
+    wrapper.setProps({ dealConfirmed: true });
+    expect(wrapper.classes()).toContain('success-btn-container');
+  });
 
 });

@@ -17,6 +17,7 @@
   "cancel-button": "Cancel",
   "confirm-button": "Confirm",
   "pending-button": "Pending....",
+  "startNewMix-button": "Start a New Mix",
   "mixAmount-label": "Salad mixes {0} ETH at a time.",
   "mixTime-label": "Funds can take up to {0} hours to reach the destination address." , 
   "dealId-label": "TxHash: ",
