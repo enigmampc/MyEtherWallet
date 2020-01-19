@@ -20,21 +20,19 @@ describe('DepositForm.vue', () => {
       localVue,
       i18n,
       store,
-      attachToDocument: true,
+      attachToDocument: true
     });
   });
 
-  afterEach(() => {
-    wrapper.destroy();
-  });
-
   it('should return the correct data', () => {
+    
     expect(wrapper.vm.$data.deliveryAddress).toEqual('');
     expect(wrapper.vm.$data.nextMix).toEqual('');
     expect(wrapper.vm.$data.message).toEqual('');
-    expect(wrapper.vm.$data.isValidDeliveryAddress).toEqual(false);
-    expect(wrapper.vm.$data.deliveryAddressErrMessage).toEqual('');
+    expect(wrapper.vm.$data.isValidDeliveryAddress).toEqual(true);
+    expect(wrapper.vm.$data.mixAmount).toEqual(0.01);
   });
+
 
   it('Renders masked currentAddress', () => {
     const addressContent = wrapper.vm.$el
@@ -49,27 +47,22 @@ describe('DepositForm.vue', () => {
     expect(addressContent).toEqual(expectedCurrentAddressText);
   });
 
-  it('should set an error message if deliveryAddress is not valid', () => {
+  it('invalid deliveryAddress', () => {
     const deliveryAddress = '0x0';
     wrapper.setData({ deliveryAddress });
-
-    expect(wrapper.vm.$data.deliveryAddressErrMessage).toEqual(
-      'DeliveryAddress must be a valid Ethereum address'
-    );
+    expect(wrapper.vm.$data.isValidDeliveryAddress).toEqual(false);
   });
 
   it('deliveryAddress is valid', () => {
-    const deliveryAddress = '0x0';
+    const deliveryAddress = wrapper.vm.account.address;
     wrapper.setData({ deliveryAddress });
 
-    expect(wrapper.vm.$data.deliveryAddressErrMessage).toEqual(
-      'DeliveryAddress must be a valid Ethereum address'
-    );
+    expect(wrapper.vm.$data.isValidDeliveryAddress).toEqual(true);
   });
 
   it('should set an error message if balance is too low', () => {
     const mixAmount = '1';
-    wrapper.setData({ mixAmount });
+    wrapper.setProps({ mixAmount });
     wrapper.setData({ account: { balance: 0 } });
 
     const deliveryAddress = wrapper.vm.account.address;
@@ -80,7 +73,7 @@ describe('DepositForm.vue', () => {
 
   it('valid eth balance', () => {
     const mixAmount = '1';
-    wrapper.setData({ mixAmount });
+    wrapper.setProps({ mixAmount });
     
     wrapper.setData({ account: { balance: web3.utils.toWei(mixAmount, 'ether') } });
 

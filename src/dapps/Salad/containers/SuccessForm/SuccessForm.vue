@@ -11,20 +11,32 @@
           </b-col>
         </b-row>
         <transaction-details></transaction-details>
-        <b-row>
-          <b-col>
-            <span class="successStatus-label">
-              {{successStatusHeader}}
-            </span>
-          </b-col>
-        </b-row>
-        <b-row>
-          <b-col>
-            <span class="successStatus-label">
-              {{successStatusMessage}}
-            </span>
-          </b-col>
-        </b-row>
+        <b-container>
+          <b-row>
+            <b-col>
+              <span class="dealId-label">
+                {{ $t('salad.dealId-label')}}
+              </span>
+            </b-col>
+            <b-col>
+              <a href="#">{{dealId}}</a>
+            </b-col>
+          </b-row>
+          <b-row>
+            <b-col>
+              <h3 class="successStatus-label">
+                {{ successStatusHeader }}
+              </h3>
+            </b-col>
+          </b-row>
+          <b-row>
+            <b-col>
+              <h3 class="successStatus-label">
+                {{ successStatusMessage }}
+              </h3>
+            </b-col>
+          </b-row>
+        </b-container>
       </b-container>
     </div>
   </div>
@@ -34,22 +46,16 @@
 <script>
 import SaladHeader from '../../components/SaladHeader';
 import TransactionDetails from '../../components/TransactionDetails';
-import { mapState } from 'vuex';
 
 export default {
-  props: {
-    successStatusHeader: {
-      type: String,
-      default: ''
-    },
-    successStatusMessage: {
-      type: String,
-      default: ''
-    },
-  },
   components: {
     'salad-header': SaladHeader,
     'transaction-details': TransactionDetails,
+  },
+  props: {
+    successStatusHeader: String,
+    successStatusMessage: String,
+    dealId: String
   },
   methods: {
     startNewMix () {

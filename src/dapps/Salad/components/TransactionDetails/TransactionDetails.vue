@@ -38,6 +38,26 @@
   </div>
 </template>
 
+
+
+<script>
+import { mapState } from 'vuex';
+
+export default {
+  computed: {
+    ...mapState(['mixAmount']),
+  },
+  methods: {
+    confirm () {
+      this.$emit("confirmDeposit");
+    },
+    cancel() {
+      this.$emit("cancelDeposit");
+    }
+  }
+};
+</script>
+
 <style lang="scss" scoped>
 @import 'TransactionDetails.scss';
 </style>

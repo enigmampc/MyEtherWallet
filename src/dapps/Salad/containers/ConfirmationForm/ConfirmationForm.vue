@@ -6,7 +6,7 @@
         <transaction-details></transaction-details>
 
         <b-row>
-          <div v-if="isSubmitting" class="buttons-container">
+          <div class="buttons-container">
             <b-col>
               <b-button class="submit" @click="cancel()">
                 {{ $t('salad.cancel-button') }}
@@ -30,25 +30,19 @@
 import SaladFooter from '../../components/SaladFooter';
 import SaladHeader from '../../components/SaladHeader';
 import TransactionDetails from '../../components/TransactionDetails';
+import { mapState } from 'vuex';
 
 export default {
-  data: function() {
-    return {
-      // todo pass from config
-      mixAmount: '0.01',
-      isSubmitting: true,
-      isPending: false,
-    };
-  },
   components: {
     'salad-footer': SaladFooter,
     'salad-header': SaladHeader,
     'transaction-details': TransactionDetails,
   },
+  computed: {
+    ...mapState(['isPending']),
+  },
   methods: {
     confirm () {
-      this.isSubmitting = false;
-      this.isPending = true;
       this.$emit("confirmDeposit");
     },
     cancel() {

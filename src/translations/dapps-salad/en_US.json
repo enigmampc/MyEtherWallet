@@ -19,6 +19,7 @@
   "pending-button": "Pending....",
   "mixAmount-label": "Salad mixes {0} ETH at a time.",
   "mixTime-label": "Funds can take up to {0} hours to reach the destination address." , 
+  "dealId-label": "TxHash: ",
   "exit-dapp": "Exit Dapp",
   "learn-more": "Learn More",
   "feeCalculation-label": "How are fees calculated?",

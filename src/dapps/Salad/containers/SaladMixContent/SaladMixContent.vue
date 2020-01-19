@@ -7,11 +7,15 @@
       <confirmation-form @cancelDeposit="cancelDeposit" @confirmDeposit="confirmDeposit"></confirmation-form>
     </div>
     <div v-else-if="page == 'success'">
-      <success-form @startNewMix="startNewMix"></success-form>
+      <success-form 
+        @startNewMix="startNewMix" 
+        v-bind:successStatusHeader="successStatusHeader"
+        v-bind:successStatusMessage="successStatusMessage" 
+        v-bind:dealId="deal.dealId">
+      </success-form>
     </div>
   </div>
 </template>
-
 <script>
 import DepositForm from '../DepositForm';
 import ConfirmationForm from '../ConfirmationForm';
@@ -40,8 +44,9 @@ export default {
       err: null,
       deal: null,
       salad: null,
-      successStatusHeader: '',
-      successStatusMessage: '',
+      successStatusHeader: this.$t('salad.pendingStatus'),
+      successStatusMessage: this.$t('salad.pendingStatusMessage'),
+      dealId: ''
     };
   },
   watch: {
@@ -56,10 +61,13 @@ export default {
     isPending(newVal) {
       console.log(`isPending = ${newVal}`);
       this.isPending = newVal;
+      debugger
       if (this.isPending) {
-        this.successStatusHeader = 'pending status'
+        this.successStatusHeader = this.$t('salad.pendingStatus');
+        this.successStatusMessage = this.$t('salad.pendingStatusMessage');
       } else {
-        this.successStatusHeader = 'not pending status'
+        this.successStatusHeader = this.$t('salad.submittedStatus');
+        this.successStatusMessage = this.$t('salad.submittedStatusMessage');
       }
       // todo handle isPending
     },
@@ -74,6 +82,7 @@ export default {
     deal(newVal) {
       console.log(`deal = ${newVal}`);
       debugger
+      this.dealId = newVal.dealId;
       // todo handle deal
     }
   },
@@ -85,7 +94,8 @@ export default {
   },
   methods: {
     depositStarted(deliveryAddress) {
-      this.deliveryAddress = deliveryAddress;
+      this.deliveryAddress = toChecksumAddress(deliveryAddress);
+      this.isPending = true;
       this.page = 'confirmDeposit';
     },
     cancelDeposit() {

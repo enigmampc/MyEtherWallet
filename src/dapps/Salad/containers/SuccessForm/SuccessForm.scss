@@ -1,10 +1,9 @@
 @import '~@/scss/GlobalVariables';
 
 .salad-success-form {
-  
   .success-header {
     h3 {
-      color: '#05c0a5';
+      color: '#05c0a5' !important;;
       font-weight: 400;
       text-align: center;
     }

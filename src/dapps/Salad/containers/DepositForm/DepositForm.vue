@@ -10,7 +10,7 @@
                 {{ $t('salad.depositAddress-label') }}
               </span>
               <span class="currentAddress">
-                {{ maskedCurrentAddress }}
+                {{ maskCurrentAddress() }}
               </span>
               <span class="depositAddress-label">
                 {{ $t('salad.depositAddress-label2') }}
@@ -76,7 +76,6 @@ export default {
   data: function() {
     return {
       currentAddress: '',
-      maskedCurrentAddress: '',
       deliveryAddress: '',
       nextMix: '',
       message: '',
@@ -119,7 +118,6 @@ export default {
   watch: {
     deliveryAddress(newVal) {
       try {
-        console.log(`validating ${newVal}`);
         this.deliveryAddress = toChecksumAddress(newVal);
         this.isValidDeliveryAddress = true;
         this.deliveryAddressErrMessage = '';
@@ -139,13 +137,6 @@ export default {
     },
     init() {
       this.currentAddress = this.account.address;
-      this.maskedCurrentAddress = this.maskCurrentAddress();
-
-      // listen for account change
-      window.ethereum.on('accountsChanged', account => {
-        this.currentAddress = account[0];
-        this.maskedCurrentAddress = this.maskCurrentAddress();        
-      });
     },
     startDeposit() {
       if (!this.canProceed) return;
