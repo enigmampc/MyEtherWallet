@@ -1,10 +1,14 @@
 <template>
   <div class="salad-mix-content">
     <div v-if="page == 'newDeposit'">
-      <deposit-form @depositStarted="depositStarted"></deposit-form>
+      <deposit-form @startDeposit="startDeposit"></deposit-form>
     </div>
     <div v-else-if="page == 'confirmDeposit'">
-      <confirmation-form @cancelDeposit="cancelDeposit" @confirmDeposit="confirmDeposit"></confirmation-form>
+      <confirmation-form 
+      @cancelDeposit="cancelDeposit" @confirmDeposit="confirmDeposit"
+      v-bind:isSubmitting="isSubmitting"
+      >
+      </confirmation-form>
     </div>
     <div v-else-if="page == 'success'">
       <success-form 
@@ -70,13 +74,6 @@ export default {
     },
     isPending(newVal) {
       this.isPending = newVal;
-      if (this.isPending) {
-        this.successStatusHeader = this.$t('salad.pendingStatus');
-        this.successStatusMessage = this.$t('salad.pendingStatusMessage');
-      } else {
-        this.successStatusHeader = this.$t('salad.submittedStatus');
-        this.successStatusMessage = this.$t('salad.submittedStatusMessage');
-      }
     },
     deal(newVal) {
       this.deal = newVal;
@@ -85,6 +82,14 @@ export default {
         this.successStatusHeader = this.$t('salad.completedStatus');
         this.successStatusMessage = this.$t('salad.completedStatusMessage');
         this.dealConfirmed = true;
+      } else {
+        if (this.isPending) {
+          this.successStatusHeader = this.$t('salad.pendingStatus');
+          this.successStatusMessage = this.$t('salad.pendingStatusMessage');
+        } else {
+          this.successStatusHeader = this.$t('salad.submittedStatus');
+          this.successStatusMessage = this.$t('salad.submittedStatusMessage');
+        }
       }
     }
   },
@@ -92,9 +97,8 @@ export default {
     this.initSalad();
   },
   methods: {
-    depositStarted(deliveryAddress) {
+    startDeposit(deliveryAddress) {
       this.deliveryAddress = toChecksumAddress(deliveryAddress);
-      this.isPending = true;
       this.page = 'confirmDeposit';
     },
     cancelDeposit() {
@@ -110,7 +114,6 @@ export default {
       const amount = this.mixAmount;
       
       this.isSubmitting = true;
-      this.page = 'success';
       try {
           const amountInWei = this.web3.utils.toWei(amount);
           
@@ -132,6 +135,10 @@ export default {
           console.log('Deposit metadata submitted');
           
           Toast.responseHandler(`Deposit accepted by the Relayer`, Toast.INFO);
+          this.isSubmitting = false;
+          this.isPending = true;
+          this.page = 'success'
+
       } catch (e) {
           Toast.responseHandler(`Error with your deposit: ${e.message}`, Toast.ERROR);
           
@@ -166,7 +173,6 @@ export default {
         this.deal = payload.deal;
         if (this.deal.participants.indexOf(this.salad.accounts[0]) !== -1) {
           console.log('onDealCreated setting isPending = true')
-          this.isPending = true;
         }
       });
       this.salad.onDealExecuted(payload => {

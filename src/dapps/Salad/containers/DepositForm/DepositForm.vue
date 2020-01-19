@@ -140,7 +140,7 @@ export default {
     },
     startDeposit() {
       if (!this.canProceed) return;
-      this.$emit('depositStarted', this.deliveryAddress);
+      this.$emit('startDeposit', this.deliveryAddress);
     }
   }
 };

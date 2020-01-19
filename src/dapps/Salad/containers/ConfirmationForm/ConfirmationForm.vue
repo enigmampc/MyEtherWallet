@@ -13,8 +13,8 @@
               </b-button>
             </b-col>
             <b-col>
-              <b-button :disabled="isPending" class="cancel-btn" @click="confirm()">
-                {{ isPending ? $t('salad.pending-button') : $t('salad.confirm-button') }}
+              <b-button :disabled="isSubmitting" class="cancel-btn" @click="confirmDeposit()">
+                {{ isSubmitting ? $t('salad.pending-button') : $t('salad.confirm-button') }}
               </b-button>
             </b-col>
           </div>
@@ -30,7 +30,6 @@
 import SaladFooter from '../../components/SaladFooter';
 import SaladHeader from '../../components/SaladHeader';
 import TransactionDetails from '../../components/TransactionDetails';
-import { mapState } from 'vuex';
 
 export default {
   components: {
@@ -38,11 +37,11 @@ export default {
     'salad-header': SaladHeader,
     'transaction-details': TransactionDetails,
   },
-  computed: {
-    ...mapState(['isPending']),
+  props: {
+    isSubmitting: Boolean
   },
   methods: {
-    confirm () {
+    confirmDeposit () {
       this.$emit("confirmDeposit");
     },
     cancel() {
