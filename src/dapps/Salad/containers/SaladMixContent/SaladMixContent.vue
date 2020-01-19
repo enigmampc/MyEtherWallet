@@ -61,7 +61,7 @@ export default {
     isPending(newVal) {
       console.log(`isPending = ${newVal}`);
       this.isPending = newVal;
-      debugger
+      // todo handle state changes
       if (this.isPending) {
         this.successStatusHeader = this.$t('salad.pendingStatus');
         this.successStatusMessage = this.$t('salad.pendingStatusMessage');
@@ -69,21 +69,10 @@ export default {
         this.successStatusHeader = this.$t('salad.submittedStatus');
         this.successStatusMessage = this.$t('salad.submittedStatusMessage');
       }
-      // todo handle isPending
-    },
-    quorum(newVal) {
-      console.log(`quorum = ${newVal}`);
-      // todo handle quorum
-    },
-    threshold(newVal) {
-      console.log(`threshold = ${newVal}`);
-      // todo handle threshold
     },
     deal(newVal) {
       console.log(`deal = ${newVal}`);
-      debugger
       this.dealId = newVal.dealId;
-      // todo handle deal
     }
   },
   computed: {
