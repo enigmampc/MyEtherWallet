@@ -19,7 +19,7 @@
         <b-row>
           <b-col>
             <span class="amountReceived-label">
-              {{ $t('salad.amountReceived-label', ['0.989 ETH']) }}
+              {{ $t('salad.amountReceived-label', ['0.989']) }}
             </span>
           </b-col>
         </b-row>
@@ -44,6 +44,7 @@
 import { mapState } from 'vuex';
 
 export default {
+  // todo fees and mixAmount as data/props
   computed: {
     ...mapState(['mixAmount']),
   },

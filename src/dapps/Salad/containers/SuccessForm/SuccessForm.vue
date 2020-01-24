@@ -15,11 +15,11 @@
           <b-row v-if="dealId">
             <b-col>
               <span class="dealId-label">
-                {{ $t('salad.dealId-label')}}
+                {{ $t('salad.dealId-label') }}
               </span>
             </b-col>
             <b-col>
-              <a href="#">{{dealId}}</a>
+              <a href="#">{{ dealId }}</a>
             </b-col>
           </b-row>
           <b-row>
@@ -39,8 +39,7 @@
           <b-row>
             <b-col>
               <div v-if="dealConfirmed" class="success-btn-container">
-                <b-button class="submit-btn"
-                          v-on:click="$emit('startNewMix')">
+                <b-button class="submit-btn" v-on:click="$emit('startNewMix')">
                   {{ $t('salad.startNewMix-button') }}
                 </b-button>
               </div>

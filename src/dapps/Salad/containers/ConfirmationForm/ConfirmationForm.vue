@@ -8,12 +8,12 @@
         <b-row>
           <div class="buttons-container">
             <b-col>
-              <b-button class="submit" @click="cancel()">
+              <b-button class="cancel-btn" @click="cancel()">
                 {{ $t('salad.cancel-button') }}
               </b-button>
             </b-col>
             <b-col>
-              <b-button :disabled="isSubmitting" class="cancel-btn" @click="confirmDeposit()">
+              <b-button :disabled="isSubmitting" class="submit-btn" @click="confirmDeposit()">
                 {{ isSubmitting ? $t('salad.pending-button') : $t('salad.confirm-button') }}
               </b-button>
             </b-col>

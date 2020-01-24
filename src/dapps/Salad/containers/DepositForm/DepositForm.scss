@@ -33,6 +33,7 @@
     }
   }
   .deliveryAddress-label {
+    font-weight: 400;
     margin-top: 10px !important;
     margin-bottom: 2px !important;
   }
@@ -56,15 +57,32 @@
     
 
     .submit-btn {
-      width: 260px;
-      height: 62px;
+      width: 100%;
+      height: 52px;
       border-radius: 4px;
       background-color: #05C0A5;
     }
 
     .deliveryAddress-input {
-      padding: 13px 45px 13px 15px;
-      width: 100%;
+      display: flex;
+      width: 100%;	
+      @media all and (max-width: $tablet-width) {
+        display: block;
+        text-align: center;
+      }
+
+      input {
+        background-color: $light-grey-1;
+        border: 2px solid #05C0A5;
+        height: 52px;
+        padding-left: 20px;
+        padding-right: 20px;
+        width: 100%;
+
+        @media all and (max-width: $tablet-width) {
+          border-radius: 4px;
+        }
+      }
     }
   }
   .deposit-info {

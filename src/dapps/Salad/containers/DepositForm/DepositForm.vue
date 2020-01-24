@@ -19,13 +19,13 @@
           </div>
         </b-row>
         <b-row>
-            <b-col>
+          <b-col>
             <div class="sub-text">
               <p v-if="!hasEnoughEth" class="err-msg">
                 {{ $t('salad.minimumEthErrMessage') }}
               </p>
             </div>
-            </b-col>
+          </b-col>
         </b-row>
 
         <b-row>
@@ -39,22 +39,31 @@
         <b-row class="deposit-container">
           <b-col>
             <div class="deliveryAddress-input">
-              <input :placeholder="$t('salad.deliveryAddress-ph')" type="text" 
-                  v-model="deliveryAddress"/>
-              <p v-if="!isValidDeliveryAddress" class="sub-text err-msg">
-                {{ $t('salad.validRecipientErrMessage') }}
-              </p>
+              <input
+                v-model="deliveryAddress"
+                :placeholder="$t('salad.deliveryAddress-ph')"
+                type="text"
+              />
             </div>
           </b-col>
 
           <b-col>
             <div class="deposit-btn-container">
-              <b-button :class="[isValidInput ? '' : 'disabled']"
-                        class="submit-btn startDeposit-btn"
-                        @click="startDeposit()">
+              <b-button
+                :class="[isValidInput ? '' : 'disabled']"
+                class="submit-btn startDeposit-btn"
+                @click="startDeposit()"
+              >
                 {{ $t('salad.startDeposit-button') }}
               </b-button>
             </div>
+          </b-col>
+        </b-row>
+        <b-row>
+          <b-col>
+            <p v-if="!isValidDeliveryAddress" class="sub-text err-msg">
+              {{ $t('salad.validRecipientErrMessage') }}
+            </p>
           </b-col>
         </b-row>
 
@@ -70,9 +79,12 @@ import SaladHeader from '../../components/SaladHeader';
 import { mapState } from 'vuex';
 import { toChecksumAddress } from 'web3-utils';
 import BigNumber from 'bignumber.js';
-import { Toast } from '@/helpers';
 
 export default {
+  components: {
+    'salad-footer': SaladFooter,
+    'salad-header': SaladHeader
+  },
   data: function() {
     return {
       currentAddress: '',
@@ -82,10 +94,6 @@ export default {
       isValidDeliveryAddress: true,
       mixAmount: 0.01
     };
-  },
-  components: {
-    'salad-footer': SaladFooter,
-    'salad-header': SaladHeader
   },
   computed: {
     ...mapState(['web3', 'account', 'network', 'online']),
@@ -100,20 +108,11 @@ export default {
         new BigNumber(this.account.balance).toFixed(),
         'ether'
       );
-      
       return accountBalance >= this.mixAmount;
     },
-    hasEnoughEng() {
-      console.log('checking eng');
-      // todo check user's contract balance
-      return true;
-    },
     canProceed() {
-      return this.hasEnoughEth && this.hasEnoughEng;
-    },
-  },
-  mounted() {
-    this.init();
+      return this.hasEnoughEth;
+    }
   },
   watch: {
     deliveryAddress(newVal) {
@@ -124,7 +123,10 @@ export default {
       } catch (error) {
         this.isValidDeliveryAddress = false;
       }
-    },
+    }
+  },
+  mounted() {
+    this.init();
   },
   methods: {
     maskCurrentAddress: function() {

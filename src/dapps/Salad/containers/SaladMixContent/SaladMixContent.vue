@@ -66,7 +66,7 @@ export default {
   },
   watch: {
     blockCountdown(newVal) {
-      console.log(`blockCountdown = ${newVal}`);
+      this.blockCountdown = newVal;
       // todo handle blockCountdown
     },
     isSubmitting(newVal) {
@@ -120,19 +120,13 @@ export default {
           const depositReceipt = await this.salad.makeDepositAsync(sender, amountInWei);
           Toast.responseHandler(`Deposit made with tx: ${depositReceipt.transactionHash}`, Toast.INFO);
           
-          console.log('Deposit made', depositReceipt);
-          console.log('Encrypting recipient', recipient);
           const encRecipient = await this.salad.encryptRecipientAsync(recipient);
-          console.log(`The encrypted recipient ${encRecipient}`);
           const myPubKey = this.salad.keyPair.publicKey;
-          console.log(`Signing deposit payload ${sender}, ${amountInWei}, ${encRecipient}, ${myPubKey}`);
           
           const signature = await this.salad.signDepositMetadataAsync(sender, amountInWei, encRecipient, myPubKey);
-          console.log('Deposit payload signed', signature);
           // The public key of the user must be submitted
           // This is DH encryption, Enigma needs the user pub key to decrypt the data
           await this.salad.submitDepositMetadataAsync(sender, amountInWei, encRecipient, myPubKey, signature);
-          console.log('Deposit metadata submitted');
           
           Toast.responseHandler(`Deposit accepted by the Relayer`, Toast.INFO);
           this.isSubmitting = false;
@@ -141,10 +135,7 @@ export default {
 
       } catch (e) {
           Toast.responseHandler(`Error with your deposit: ${e.message}`, Toast.ERROR);
-          
           this.err = e
-          // todo debugger
-          debugger;
       }
     },
     async initSalad() {
@@ -157,26 +148,21 @@ export default {
       this.salad.initAsync();
 
       this.salad.onBlock(payload => {
-        console.log(`blockCountdown ${payload.blockCountdown}`);
         this.blockCountdown = payload.blockCountdown;
       });
       this.salad.onThresholdValue(payload => {
-        console.log(`threshold ${payload.threshold}`);
         this.threshold = payload.threshold;
       });
       this.salad.onQuorumValue(payload => {
-        console.log(`quorum ${payload.quorum}`);
         this.quorum = payload.quorum;
       });
       this.salad.onDealCreated(payload => {
-        console.log(`onDealCreated ${payload.deal}`);
         this.deal = payload.deal;
         if (this.deal.participants.indexOf(this.salad.accounts[0]) !== -1) {
-          console.log('onDealCreated setting isPending = true')
+          this.isPending = true;
         }
       });
       this.salad.onDealExecuted(payload => {
-        console.log(`onDealExecuted ${payload.deal}`);
         this.deal = payload.deal;
         this.isPending = false;
       });
