@@ -130,7 +130,7 @@ export default {
           
           Toast.responseHandler(`Deposit accepted by the Relayer`, Toast.INFO);
           this.isPending = true;
-          //this.page = 'success'
+          this.page = 'success'
 
       } catch (e) {
           Toast.responseHandler(`Error with your deposit: ${e.message}`, Toast.ERROR);
