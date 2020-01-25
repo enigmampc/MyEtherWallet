@@ -129,13 +129,16 @@ export default {
           await this.salad.submitDepositMetadataAsync(sender, amountInWei, encRecipient, myPubKey, signature);
           
           Toast.responseHandler(`Deposit accepted by the Relayer`, Toast.INFO);
-          this.isSubmitting = false;
           this.isPending = true;
-          this.page = 'success'
+          //this.page = 'success'
 
       } catch (e) {
           Toast.responseHandler(`Error with your deposit: ${e.message}`, Toast.ERROR);
+          this.isPending = false;
           this.err = e
+      }
+      finally {
+          this.isSubmitting = false;
       }
     },
     async initSalad() {
