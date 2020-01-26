@@ -106,7 +106,16 @@ export default {
     },
     startNewMix() {
       this.page = 'newDeposit';
-      this.deliveryAddress = ''
+      this.deliveryAddress = '';
+      this.isSubmitting = false;
+      this.isPending = false;
+      this.blockCountdown = 0;
+      this.quorum = 0;
+      this.threshold = 0;
+      this.err = null;
+      this.deal = null;
+      this.dealId = '';
+      this.dealConfirmed = false;
     },
     async confirmDeposit() {
       const sender = toChecksumAddress(this.account.address);
