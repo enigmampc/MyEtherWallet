@@ -2,7 +2,6 @@
   <div class="salad-success-form">
     <div>
       <b-container>
-        <salad-header></salad-header>
         <b-row>
           <b-col cols="12">
             <h3 class="success-header">
@@ -46,7 +45,6 @@
             </b-col>
           </b-row>
         </b-container>
-        <salad-footer></salad-footer>
       </b-container>
     </div>
   </div>
@@ -54,15 +52,11 @@
 
 
 <script>
-import SaladHeader from '../../components/SaladHeader';
 import TransactionDetails from '../../components/TransactionDetails';
-import SaladFooter from '../../components/SaladFooter';
 
 export default {
   components: {
-    'salad-header': SaladHeader,
-    'transaction-details': TransactionDetails,
-    'salad-footer': SaladFooter
+    'transaction-details': TransactionDetails
   },
   props: {
     successStatusHeader: String, 
@@ -74,5 +68,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import 'SuccessForm.scss';
+@import 'SuccessForm';
 </style>

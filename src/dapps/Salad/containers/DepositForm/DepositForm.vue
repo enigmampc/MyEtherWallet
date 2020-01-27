@@ -1,23 +1,18 @@
 <template>
-  <div class="salad-deposit-form">
-    <div class="form">
+  <div id="salad-deposit-container">
+    <div id="deposit-info">
+      {{ $t('salad.depositAddress-label') }}
+      <span class="current-address">
+        {{ maskCurrentAddress() }}
+      </span>
+      {{ $t('salad.depositAddress-label2') }}
+    </div>
+    
+    <div id="deposit-form">
       <b-container>
-        <salad-header></salad-header>
         <b-row>
-          <div class="deposit-info">
-            <b-col>
-              <span class="depositAddress-label">
-                {{ $t('salad.depositAddress-label') }}
-              </span>
-              <span class="currentAddress">
-                {{ maskCurrentAddress() }}
-              </span>
-              <span class="depositAddress-label">
-                {{ $t('salad.depositAddress-label2') }}
-              </span>
-            </b-col>
-          </div>
         </b-row>
+
         <b-row>
           <b-col>
             <div class="sub-text">
@@ -28,30 +23,29 @@
           </b-col>
         </b-row>
 
-        <b-row>
+        <b-row class="deposit-input-container">
           <b-col>
-            <p class="deliveryAddress-label">
-              {{ $t('salad.deliveryAddress-label') }}
-            </p>
-          </b-col>
-        </b-row>
-
-        <b-row class="deposit-container">
-          <b-col>
-            <div class="deliveryAddress-input">
-              <input
-                v-model="deliveryAddress"
-                :placeholder="$t('salad.deliveryAddress-ph')"
-                type="text"
-              />
-            </div>
+            <b-row>
+              <p class="delivery-address-label">
+                {{ $t('salad.deliveryAddress-label') }}
+              </p>
+            </b-row>
+            <b-row>
+              <div class="delivery-address-input">
+                <input
+                  v-model="deliveryAddress"
+                  :placeholder="$t('salad.deliveryAddress-ph')"
+                  type="text"
+                />
+              </div>
+            </b-row>
           </b-col>
 
           <b-col>
             <div class="deposit-btn-container">
               <b-button
                 :class="[isValidInput ? '' : 'disabled']"
-                class="submit-btn startDeposit-btn"
+                class="startDeposit-btn"
                 @click="startDeposit()"
               >
                 {{ $t('salad.startDeposit-button') }}
@@ -59,6 +53,7 @@
             </div>
           </b-col>
         </b-row>
+
         <b-row>
           <b-col>
             <p v-if="!isValidDeliveryAddress" class="sub-text err-msg">
@@ -67,23 +62,19 @@
           </b-col>
         </b-row>
 
-        <salad-footer></salad-footer>
       </b-container>
     </div>
   </div>
 </template>
 
 <script>
-import SaladFooter from '../../components/SaladFooter';
-import SaladHeader from '../../components/SaladHeader';
 import { mapState } from 'vuex';
 import { toChecksumAddress } from 'web3-utils';
 import BigNumber from 'bignumber.js';
 
 export default {
   components: {
-    'salad-footer': SaladFooter,
-    'salad-header': SaladHeader
+
   },
   data: function() {
     return {
@@ -148,6 +139,10 @@ export default {
 };
 </script>
 
+<style lang="scss">
+@import '../../Salad';
+</style>
+
 <style lang="scss" scoped>
-@import 'DepositForm.scss';
+@import 'DepositForm';
 </style>
