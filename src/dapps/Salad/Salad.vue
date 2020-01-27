@@ -6,7 +6,7 @@
         {{ $t('salad.title') }}
       </div>
       <div class="salad-dapp-description">
-        {{ $t('salad.description') }} <a :href="hello">{{ $t('salad.whatisit') }}</a>
+        {{ $t('salad.description') }} <a href="#">{{ $t('salad.whatisit') }}</a>
       </div>
     </div>
     <salad-mix></salad-mix>
