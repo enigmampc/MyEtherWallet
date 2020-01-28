@@ -1,18 +1,8 @@
-@import '~@/scss/GlobalVariables';
+@import '../../SaladGlobal.scss';
 #salad-deposit-container {
-    padding: 0px;
-    font-family: 'Avenir Next';
-    font-size: 18px;
-    line-height: 25px;
-    font-weight: normal;
-    // Tablet
-    @media all and (min-width: calc(#{$mobile-width} + 1px)) and (max-width: $tablet-width) {
-        padding: 20px;
-    }
-    // Mobile
-    @media all and (max-width: $mobile-width) {
-        padding: 10px;
-    }
+    
+    @extend %template-container;
+
     #deposit-info {
         width: 100%;
         height: 35px;
