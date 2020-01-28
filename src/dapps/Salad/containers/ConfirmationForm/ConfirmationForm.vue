@@ -13,8 +13,6 @@
 </template>
 
 <script>
-import SaladFooter from '../../components/SaladFooter';
-import SaladHeader from '../../components/SaladHeader';
 import TransactionDetails from '../../components/TransactionDetails';
 
 export default {
@@ -36,5 +34,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import 'Confirmationform';
+@import 'ConfirmationForm';
 </style>

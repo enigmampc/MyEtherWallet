@@ -23,7 +23,7 @@
     <salad-mix-footer></salad-mix-footer>
   </div>
 </template>
-
+ 
 <script>
 import SaladMixHeader from '../../components/SaladMixHeader';
 import SaladMixFooter from '../../components/SaladMixFooter';
