@@ -36,7 +36,7 @@ describe('DepositForm.vue', () => {
 
   it('Renders masked currentAddress', () => {
     const addressContent = wrapper.vm.$el
-      .querySelector('.currentAddress')
+      .querySelector('.current-address')
       .textContent.trim();
     const currentAddress = wrapper.vm.account.address;
     const expectedCurrentAddressText =
@@ -83,3 +83,4 @@ describe('DepositForm.vue', () => {
     expect(wrapper.vm.hasEnoughEth).toBe(true);
   });
 });
+ 
