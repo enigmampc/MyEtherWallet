@@ -1,56 +1,195 @@
 <template>
-  <div>
-    <div class="salad-outer-div">
-      <back-button :title="$t('salad.exit-dapp')" />
-      <div class="salad-header">
-        <div class="title-container">
-          <h1>{{ $t('salad.title') }}</h1>
-        </div>
-        <div>
-          <h3>{{ $t('salad.desc') }}</h3>
-        </div>
-      </div>
-      <div>
-        <salad-mix-content></salad-mix-content>
-      </div>
+  <div id="salad-mix-container">
+    <salad-mix-header></salad-mix-header>
+    <div v-if="page == 'newDeposit'">
+      <deposit-form @startDeposit="startDeposit"></deposit-form>
     </div>
+    <div v-else-if="page == 'confirmDeposit'">
+      <confirmation-form 
+      @cancelDeposit="cancelDeposit" @confirmDeposit="confirmDeposit"
+      v-bind:isSubmitting="isSubmitting"
+      >
+      </confirmation-form>
+    </div>
+    <div v-else-if="page == 'success'">
+      <success-form 
+        @startNewMix="startNewMix" 
+        v-bind:successStatusHeader="successStatusHeader"
+        v-bind:successStatusMessage="successStatusMessage" 
+        v-bind:dealId="dealId"
+        v-bind:dealConfirmed="dealConfirmed">
+      </success-form>
+    </div>
+    <salad-mix-footer></salad-mix-footer>
   </div>
 </template>
-
+ 
 <script>
-import SaladMixContent from '../SaladMixContent';
-import BackButton from '@/layouts/InterfaceLayout/components/BackButton';
+import SaladMixHeader from '../../components/SaladMixHeader';
+import SaladMixFooter from '../../components/SaladMixFooter';
+import DepositForm from '../DepositForm';
+import ConfirmationForm from '../ConfirmationForm';
+import SuccessForm from '../SuccessForm';
+import { mapState } from 'vuex';
+import SaladMixer from '../../SaladMixer.js';
+import { toChecksumAddress } from 'web3-utils';
+import { Toast } from '@/helpers';
+
+const DEAL_STATUS = {
+    NEW: 0,
+    EXECUTABLE: 1,
+    EXECUTED: 2,
+};
 
 export default {
   components: {
-    'salad-mix-content': SaladMixContent,
-    'back-button': BackButton
+    'salad-mix-header': SaladMixHeader,
+    'salad-mix-footer': SaladMixFooter,
+    'deposit-form': DepositForm,
+    'confirmation-form': ConfirmationForm,
+    'success-form': SuccessForm
+  },
+  data: function() {
+    return {
+      page: 'newDeposit',
+      mixAmount: "0.01",
+      deliveryAddress: '',
+      isSubmitting: false,
+      isPending: false,
+      blockCountdown: 0,
+      quorum: 0,
+      threshold: 0,
+      err: null,
+      deal: null,
+      salad: null,
+      successStatusHeader: this.$t('salad.pendingStatus'),
+      successStatusMessage: this.$t('salad.pendingStatusMessage'),
+      dealId: '',
+      dealConfirmed: false
+    };
+  },
+  computed: {
+    ...mapState(['web3', 'account', 'network', 'online'])
+  },
+  watch: {
+    blockCountdown(newVal) {
+      this.blockCountdown = newVal;
+      // todo handle blockCountdown
+    },
+    isSubmitting(newVal) {
+      this.isSubmitting = newVal;
+    },
+    isPending(newVal) {
+      this.isPending = newVal;
+    },
+    deal(newVal) {
+      this.deal = newVal;
+      this.dealId = newVal.dealId;
+      if (this.deal.status == DEAL_STATUS.EXECUTED) {
+        this.successStatusHeader = this.$t('salad.completedStatus');
+        this.successStatusMessage = this.$t('salad.completedStatusMessage');
+        this.dealConfirmed = true;
+      } else {
+        if (this.isPending) {
+          this.successStatusHeader = this.$t('salad.pendingStatus');
+          this.successStatusMessage = this.$t('salad.pendingStatusMessage');
+        } else {
+          this.successStatusHeader = this.$t('salad.submittedStatus');
+          this.successStatusMessage = this.$t('salad.submittedStatusMessage');
+        }
+      }
+    }
+  },
+  mounted() {
+    this.initSalad();
+  },
+  methods: {
+    startDeposit(deliveryAddress) {
+      this.deliveryAddress = toChecksumAddress(deliveryAddress);
+      this.page = 'confirmDeposit';
+    },
+    cancelDeposit() {
+      this.startNewMix();
+    },
+    startNewMix() {
+      this.page = 'newDeposit';
+      this.deliveryAddress = '';
+      this.isSubmitting = false;
+      this.isPending = false;
+      this.blockCountdown = 0;
+      this.quorum = 0;
+      this.threshold = 0;
+      this.err = null;
+      this.deal = null;
+      this.dealId = '';
+      this.dealConfirmed = false;
+    },
+    async confirmDeposit() {
+      const sender = toChecksumAddress(this.account.address);
+      const recipient = this.deliveryAddress;
+      const amount = this.mixAmount;
+      
+      this.isSubmitting = true;
+      try {
+          const amountInWei = this.web3.utils.toWei(amount);
+          
+          const depositReceipt = await this.salad.makeDepositAsync(sender, amountInWei);
+          Toast.responseHandler(`Deposit made with tx: ${depositReceipt.transactionHash}`, Toast.INFO);
+          
+          const encRecipient = await this.salad.encryptRecipientAsync(recipient);
+          const myPubKey = this.salad.keyPair.publicKey;
+          
+          const signature = await this.salad.signDepositMetadataAsync(sender, amountInWei, encRecipient, myPubKey);
+          // The public key of the user must be submitted
+          // This is DH encryption, Enigma needs the user pub key to decrypt the data
+          await this.salad.submitDepositMetadataAsync(sender, amountInWei, encRecipient, myPubKey, signature);
+          
+          Toast.responseHandler(`Deposit accepted by the Relayer`, Toast.INFO);
+          this.isPending = true;
+          this.page = 'success'
+
+      } catch (e) {
+          Toast.responseHandler(`Error with your deposit: ${e.message}`, Toast.ERROR);
+          this.isPending = false;
+          this.err = e
+      }
+      finally {
+          this.isSubmitting = false;
+      }
+    },
+    async initSalad() {
+      const account = {
+        address: this.account.address,
+        balance: this.account.balance,
+        netId: this.network.type.chainID.toString()
+      };
+      this.salad = new SaladMixer(account, this.web3);
+      this.salad.initAsync();
+
+      this.salad.onBlock(payload => {
+        this.blockCountdown = payload.blockCountdown;
+      });
+      this.salad.onThresholdValue(payload => {
+        this.threshold = payload.threshold;
+      });
+      this.salad.onQuorumValue(payload => {
+        this.quorum = payload.quorum;
+      });
+      this.salad.onDealCreated(payload => {
+        this.deal = payload.deal;
+        if (this.deal.participants.indexOf(this.salad.accounts[0]) !== -1) {
+          this.isPending = true;
+        }
+      });
+      this.salad.onDealExecuted(payload => {
+        this.deal = payload.deal;
+        this.isPending = false;
+      });
+    }
   }
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
-.back-container {
-  background-color: #cdf2ee;
-}
-
-.salad-outer-div {
-  border: 30px solid #cdf2ee;
-  background-color: #cdf2ee;
-}
+<style lang="scss" scoped>
+@import 'SaladMix';
 </style>

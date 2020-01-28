@@ -1,0 +1,38 @@
+@import '~@/scss/GlobalVariables';
+#salad-mix-container {
+    width: 680px;
+    height: auto;
+    margin-left: 15px;
+    margin-top: 80px;
+    margin-bottom: 30px;
+    background-color: #f3f5f8 !important;
+    border-radius: 13px;
+    border: 1px solid #6577B8;
+    padding: 0px;
+    ul {
+        list-style-type: none;
+        padding: 0;
+    }
+    li {
+        display: inline-block;
+        margin: 0 10px;
+    }
+    a {
+        color: black;
+    }
+    // Tablet
+    @media all and (min-width: calc(#{$mobile-width} + 1px)) and (max-width: $tablet-width) {
+        padding: 0px;
+    }
+    // Mobile
+    @media all and (max-width: $mobile-width) {
+        padding: 0px;
+    }
+    color: #000000 !important;
+    .salad-btn {
+        color: white;
+        font-family: "Roboto" !important;
+        font-size: 25px;
+        line-height: 29px;
+    }
+}
