@@ -1,5 +1,8 @@
-@import '~@/scss/GlobalVariables';
+@import '../../SaladGlobal.scss';
+
 #salad-mix-container {
+    @extend %template-container;
+
     width: 680px;
     height: auto;
     margin-left: 15px;
@@ -8,7 +11,7 @@
     background-color: #f3f5f8 !important;
     border-radius: 13px;
     border: 1px solid #6577B8;
-    padding: 0px;
+
     ul {
         list-style-type: none;
         padding: 0;
