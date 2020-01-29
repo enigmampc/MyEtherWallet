@@ -28,7 +28,7 @@
     "update:swap": "node compileBaseSwapOptions.js"
   },
   "dependencies": {
-    "@taariql/salad_client": "0.1.0",
+    "@taariql/salad_client": "0.1.1-alpha.3",
     "@sentry/browser": "5.11.1",
     "@sentry/integrations": "5.10.2",
     "core-js": "3.6.1",
