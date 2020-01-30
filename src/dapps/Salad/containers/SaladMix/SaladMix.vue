@@ -133,7 +133,12 @@ export default {
       try {
           const amountInWei = this.web3.utils.toWei(amount);
           
-          const depositReceipt = await this.salad.makeDepositAsync(sender, amountInWei);
+          const makeDeposit = this.salad.makeDepositData(sender, amountInWei);
+          const depositReceipt = await this.web3.eth.sendTransaction(makeDeposit).catch(err => {
+            Toast.responseHandler(err, Toast.ERROR);
+            return
+          });
+          
           Toast.responseHandler(`Deposit made with tx: ${depositReceipt.transactionHash}`, Toast.INFO);
           
           const encRecipient = await this.salad.encryptRecipientAsync(recipient);
