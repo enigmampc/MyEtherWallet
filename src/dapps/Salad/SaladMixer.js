@@ -2,7 +2,7 @@
 /*!
  */
 
-import { CoinjoinClient } from '@salad/client';
+import { CoinjoinClient } from '@taariql/salad_client';
 import { REACT_APP_OPERATOR_URL } from './config/config';
 
 export default function SaladMixer(account, web3) {
