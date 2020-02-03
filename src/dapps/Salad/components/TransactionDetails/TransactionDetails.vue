@@ -46,7 +46,7 @@ import { mapState } from 'vuex';
 export default {
   // todo fees and mixAmount as data/props
   computed: {
-    ...mapState(['mixAmount']),
+    ...mapState('main', ['mixAmount']),
   },
   methods: {
     confirm () {

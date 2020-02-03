@@ -69,7 +69,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(['web3', 'account', 'network', 'online'])
+    ...mapState('main', ['web3', 'account', 'network', 'online']),
   },
   watch: {
     blockCountdown(newVal) {
