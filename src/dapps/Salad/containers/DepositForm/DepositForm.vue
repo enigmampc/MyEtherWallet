@@ -87,7 +87,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(['web3', 'account', 'network', 'online']),
+    ...mapState('main', ['web3', 'account', 'network', 'online']),
     isValidInput() {
       return (
         // must have entered an address and it must be valid checksum
