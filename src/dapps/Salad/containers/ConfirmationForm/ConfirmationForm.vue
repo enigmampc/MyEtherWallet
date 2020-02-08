@@ -1,7 +1,7 @@
 <template>
-  <div class="salad-confirmation-form">
+  <div id="salad-confirmation-container">
     <transaction-details></transaction-details>
-    <b-container class="buttons-container">
+    <b-container class="confirmation-btn-container">
       <b-button class="button cancel-btn" @click="cancel()">
         {{ $t('salad.cancel-button') }}
       </b-button>

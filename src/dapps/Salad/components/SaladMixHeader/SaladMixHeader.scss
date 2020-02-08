@@ -1,12 +1,10 @@
-@import '~@/scss/GlobalVariables';
+@import '../../SaladGlobal.scss';
 #salad-mix-header {
     margin: 20px;
     display: flex;
     justify-content: space-between;
     div {
-        font-family: "Avenir Next";
-        font-style: normal;
-        font-weight: normal;
+        @extend %shared-text;
         font-size: 25px;
         line-height: 34px;
         color: #28464f;

@@ -1,17 +1,28 @@
 @import '~@/scss/GlobalVariables';
+%shared-text {
+    font-family: "Avenir Next";
+    font-style: normal;
+    font-weight: normal;
+}
+
+%shared-links {
+    a {
+        color: #7073b5 !important;
+    }
+}
 
 %template-container {
     padding: 0px;
-    font-family: 'Avenir Next';
+    @extend %shared-text;
+    @extend %shared-links;
     font-size: 18px;
     line-height: 25px;
-    font-weight: normal;
     // Tablet
     @media all and (min-width: calc(#{$mobile-width} + 1px)) and (max-width: $tablet-width) {
-        padding: 20px;
+        //padding: 20px;
     }
     // Mobile
     @media all and (max-width: $mobile-width) {
-        padding: 10px;
+        //padding: 10px;
     }
 }
