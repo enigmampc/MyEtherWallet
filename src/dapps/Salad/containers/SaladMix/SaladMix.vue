@@ -84,18 +84,20 @@ export default {
     },
     deal(newVal) {
       this.deal = newVal;
-      this.dealId = newVal.dealId;
-      if (this.deal.status == DEAL_STATUS.EXECUTED) {
-        this.dealStatusHeader = this.$t('salad.completedStatus');
-        this.dealStatusMessage = this.$t('salad.completedStatusMessage');
-        this.dealExecuted = true;
-      } else if (this.deal.status == DEAL_STATUS.EXECUTABLE) {
-          this.dealStatusHeader = this.$t('salad.submittedStatus');
-          this.dealStatusMessage = this.$t('salad.submittedStatusMessage');
-      } else {
-        if (this.isPending) {
-          this.dealStatusHeader = this.$t('salad.pendingStatus');
-          this.dealStatusMessage = this.$t('salad.pendingStatusMessage');
+      if (newVal !== null) {
+        this.dealId = newVal.dealId;
+        if (this.deal.status == DEAL_STATUS.EXECUTED) {
+          this.dealStatusHeader = this.$t('salad.completedStatus');
+          this.dealStatusMessage = this.$t('salad.completedStatusMessage');
+          this.dealExecuted = true;
+        } else if (this.deal.status == DEAL_STATUS.EXECUTABLE) {
+            this.dealStatusHeader = this.$t('salad.submittedStatus');
+            this.dealStatusMessage = this.$t('salad.submittedStatusMessage');
+        } else {
+          if (this.isPending) {
+            this.dealStatusHeader = this.$t('salad.pendingStatus');
+            this.dealStatusMessage = this.$t('salad.pendingStatusMessage');
+          }
         }
       }
     }
