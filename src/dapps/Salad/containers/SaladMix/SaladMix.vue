@@ -4,27 +4,28 @@
       <deposit-form @startDeposit="startDeposit"></deposit-form>
     </div>
     <div v-else-if="page == 'confirmDeposit'">
-      <confirmation-form 
-      @cancelDeposit="cancelDeposit" @confirmDeposit="confirmDeposit"
-      v-bind:isSubmitting="isSubmitting"
+      <confirmation-form
+        :is-submitting="isSubmitting"
+        @cancelDeposit="cancelDeposit"
+        @confirmDeposit="confirmDeposit"
       >
       </confirmation-form>
     </div>
     <div v-else-if="page == 'success'">
-      <success-form 
-        @startNewMix="startNewMix" 
-        v-bind:dealStatusHeader="dealStatusHeader"
-        v-bind:dealStatusMessage="dealStatusMessage" 
-        v-bind:dealId="dealId"
-        v-bind:dealExecuted="dealExecuted">
+      <success-form
+        :deal-status-header="dealStatusHeader"
+        :deal-status-message="dealStatusMessage"
+        :deal-id="dealId"
+        :deal-executed="dealExecuted"
+        @startNewMix="startNewMix"
+      >
       </success-form>
     </div>
     <salad-mix-footer></salad-mix-footer>
   </div>
 </template>
- 
+
 <script>
-import SaladMixHeader from '../../components/SaladMixHeader';
 import SaladMixFooter from '../../components/SaladMixFooter';
 import DepositForm from '../DepositForm';
 import ConfirmationForm from '../ConfirmationForm';
@@ -35,14 +36,13 @@ import { toChecksumAddress } from 'web3-utils';
 import { Toast } from '@/helpers';
 
 const DEAL_STATUS = {
-    NEW: 0,
-    EXECUTABLE: 1,
-    EXECUTED: 2,
+  NEW: 0,
+  EXECUTABLE: 1,
+  EXECUTED: 2
 };
 
 export default {
   components: {
-    'salad-mix-header': SaladMixHeader,
     'salad-mix-footer': SaladMixFooter,
     'deposit-form': DepositForm,
     'confirmation-form': ConfirmationForm,
@@ -51,7 +51,7 @@ export default {
   data: function() {
     return {
       page: 'startNewMix',
-      mixAmount: "0.01",
+      mixAmount: '0.01',
       deliveryAddress: '',
       isSubmitting: false,
       isPending: false,
@@ -64,11 +64,12 @@ export default {
       dealStatusHeader: this.$t('salad.pendingStatus'),
       dealStatusMessage: this.$t('salad.pendingStatusMessage'),
       dealId: '',
-      dealExecuted: false
+      dealExecuted: false,
+      dealConfirmed: false
     };
   },
   computed: {
-    ...mapState('main', ['web3', 'account', 'network', 'online']),
+    ...mapState('main', ['web3', 'account', 'network', 'online'])
   },
   watch: {
     blockCountdown(newVal) {
@@ -83,18 +84,20 @@ export default {
     },
     deal(newVal) {
       this.deal = newVal;
-      this.dealId = newVal.dealId;
-      if (this.deal.status == DEAL_STATUS.EXECUTED) {
-        this.dealStatusHeader = this.$t('salad.completedStatus');
-        this.dealStatusMessage = this.$t('salad.completedStatusMessage');
-        this.dealExecuted = true;
-      } else {
-        if (this.isPending) {
-          this.dealStatusHeader = this.$t('salad.pendingStatus');
-          this.dealStatusMessage = this.$t('salad.pendingStatusMessage');
+      if (newVal !== null) {
+        this.dealId = newVal.dealId;
+        if (this.deal.status == DEAL_STATUS.EXECUTED) {
+          this.dealStatusHeader = this.$t('salad.completedStatus');
+          this.dealStatusMessage = this.$t('salad.completedStatusMessage');
+          this.dealExecuted = true;
+        } else if (this.deal.status == DEAL_STATUS.EXECUTABLE) {
+            this.dealStatusHeader = this.$t('salad.submittedStatus');
+            this.dealStatusMessage = this.$t('salad.submittedStatusMessage');
         } else {
-          this.dealStatusHeader = this.$t('salad.submittedStatus');
-          this.dealStatusMessage = this.$t('salad.submittedStatusMessage');
+          if (this.isPending) {
+            this.dealStatusHeader = this.$t('salad.pendingStatus');
+            this.dealStatusMessage = this.$t('salad.pendingStatusMessage');
+          }
         }
       }
     }
@@ -128,34 +131,52 @@ export default {
       const sender = toChecksumAddress(this.account.address);
       const recipient = this.deliveryAddress;
       const amount = this.mixAmount;
-      
+
       this.isSubmitting = true;
       try {
-          const amountInWei = this.web3.utils.toWei(amount);
-          
-          const depositReceipt = await this.salad.makeDepositAsync(sender, amountInWei);
-          this.dealId = depositReceipt.transactionHash;
-          Toast.responseHandler(`Deposit made with tx: ${this.dealId}`, Toast.INFO);
-          
-          const encRecipient = await this.salad.encryptRecipientAsync(recipient);
-          const myPubKey = this.salad.keyPair.publicKey;
-          
-          const signature = await this.salad.signDepositMetadataAsync(sender, amountInWei, encRecipient, myPubKey);
-          // The public key of the user must be submitted
-          // This is DH encryption, Enigma needs the user pub key to decrypt the data
-          await this.salad.submitDepositMetadataAsync(sender, amountInWei, encRecipient, myPubKey, signature);
-          
-          Toast.responseHandler(`Deposit accepted by the Relayer`, Toast.INFO);
-          this.isPending = true;
-          this.page = 'success'
+        const amountInWei = this.web3.utils.toWei(amount);
 
+        const depositReceipt = await this.salad.makeDepositAsync(
+          sender,
+          amountInWei
+        );
+        this.dealId = depositReceipt.transactionHash;
+        Toast.responseHandler(
+          `Deposit made with tx: ${this.dealId}`,
+          Toast.INFO
+        );
+
+        const encRecipient = await this.salad.encryptRecipientAsync(recipient);
+        const myPubKey = this.salad.keyPair.publicKey;
+
+        const signature = await this.salad.signDepositMetadataAsync(
+          sender,
+          amountInWei,
+          encRecipient,
+          myPubKey
+        );
+        // The public key of the user must be submitted
+        // This is DH encryption, Enigma needs the user pub key to decrypt the data
+        await this.salad.submitDepositMetadataAsync(
+          sender,
+          amountInWei,
+          encRecipient,
+          myPubKey,
+          signature
+        );
+
+        Toast.responseHandler(`Deposit accepted by the Relayer`, Toast.INFO);
+        this.isPending = true;
+        this.page = 'success';
       } catch (e) {
-          Toast.responseHandler(`Error with your deposit: ${e.message}`, Toast.ERROR);
-          this.isPending = false;
-          this.err = e
-      }
-      finally {
-          this.isSubmitting = false;
+        Toast.responseHandler(
+          `Error with your deposit: ${e.message}`,
+          Toast.ERROR
+        );
+        this.isPending = false;
+        this.err = e;
+      } finally {
+        this.isSubmitting = false;
       }
     },
     async initSalad() {

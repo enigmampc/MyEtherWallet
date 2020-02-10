@@ -1,8 +1,9 @@
-import Vue from 'vue';
+import VueX from 'vuex';
 import { shallowMount } from '@vue/test-utils';
 import DepositForm from '@/dapps/Salad/containers/DepositForm';
 import { Tooling } from '@@/helpers';
 import web3 from 'web3';
+import { state, getters } from '@@/helpers/mockStore';
 
 describe('DepositForm.vue', () => {
   let localVue, i18n, wrapper, store;
@@ -11,8 +12,15 @@ describe('DepositForm.vue', () => {
     const baseSetup = Tooling.createLocalVueInstance();
     localVue = baseSetup.localVue;
     i18n = baseSetup.i18n;
-    store = baseSetup.store;
-    Vue.config.warnHandler = () => {};
+    store = new VueX.Store({
+      modules: {
+        main: {
+          namespaced: true,
+          state,
+          getters
+        }
+      }
+    });
   });
 
   beforeEach(() => {
@@ -25,7 +33,6 @@ describe('DepositForm.vue', () => {
   });
 
   it('should return the correct data', () => {
-    
     expect(wrapper.vm.$data.deliveryAddress).toEqual('');
     expect(wrapper.vm.$data.nextMix).toEqual('');
     expect(wrapper.vm.$data.message).toEqual('');
@@ -33,12 +40,11 @@ describe('DepositForm.vue', () => {
     expect(wrapper.vm.$data.mixAmount).toEqual(0.01);
   });
 
-
   it('Renders masked currentAddress', () => {
     const addressContent = wrapper.vm.$el
       .querySelector('.current-address')
       .textContent.trim();
-    const currentAddress = wrapper.vm.account.address;
+    const currentAddress = state.account.address;
     const expectedCurrentAddressText =
       currentAddress.substring(0, 7) +
       '....' +
@@ -54,7 +60,7 @@ describe('DepositForm.vue', () => {
   });
 
   it('deliveryAddress is valid', () => {
-    const deliveryAddress = wrapper.vm.account.address;
+    const deliveryAddress = state.account.address;
     wrapper.setData({ deliveryAddress });
 
     expect(wrapper.vm.$data.isValidDeliveryAddress).toEqual(true);
@@ -65,7 +71,7 @@ describe('DepositForm.vue', () => {
     wrapper.setProps({ mixAmount });
     wrapper.setData({ account: { balance: 0 } });
 
-    const deliveryAddress = wrapper.vm.account.address;
+    const deliveryAddress = state.account.address;
     wrapper.setData({ deliveryAddress });
 
     expect(wrapper.vm.hasEnoughEth).toBe(false);
@@ -74,13 +80,14 @@ describe('DepositForm.vue', () => {
   it('valid eth balance', () => {
     const mixAmount = '1';
     wrapper.setProps({ mixAmount });
-    
-    wrapper.setData({ account: { balance: web3.utils.toWei(mixAmount, 'ether') } });
 
-    const deliveryAddress = wrapper.vm.account.address;
+    wrapper.setData({
+      account: { balance: web3.utils.toWei(mixAmount, 'ether') }
+    });
+
+    const deliveryAddress = state.account.address;
     wrapper.setData({ deliveryAddress });
 
     expect(wrapper.vm.hasEnoughEth).toBe(true);
   });
 });
- 

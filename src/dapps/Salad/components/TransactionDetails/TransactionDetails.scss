@@ -1,26 +1,28 @@
 @import '../../SaladGlobal.scss';
 #transaction-details-container {
-    @extend %template-container;
-    color: black;
-    #transaction-details-header {
-        margin-top: 39px;
-        margin-bottom: 10px;
-        @extend %shared-text;
-        font-size: 25px;
-        line-height: 34px;
-        color: #28464f;
+  @extend %template-container;
+
+  color: black;
+  #transaction-details-header {
+    margin-top: 39px;
+    margin-bottom: 10px;
+    @extend %shared-text;
+
+    font-size: 25px;
+    line-height: 34px;
+    color: #28464f;
+  }
+  div.container {
+    padding: 0 !important;
+    div.col,
+    a {
+      margin-top: 10px;
+      font-size: 18px;
+      line-height: 25px;
+      @extend %shared-text;
     }
-    div.container {
-        padding: 0px !important;
-        div.col,
-        a {
-            margin-top: 10px;
-            font-size: 18px;
-            line-height: 25px;
-            @extend %shared-text;
-        }
-        a {
-            color: #7073b5;
-        }
+    a {
+      color: #7073b5;
     }
+  }
 }

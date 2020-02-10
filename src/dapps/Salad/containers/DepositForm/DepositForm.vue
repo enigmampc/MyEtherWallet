@@ -8,7 +8,7 @@
       </span>
       {{ $t('salad.depositAddress-label2') }}
     </div>
-    
+
     <div id="deposit-form">
       <b-container>
         <b-row>
@@ -59,7 +59,6 @@
             </p>
           </b-col>
         </b-row>
-
       </b-container>
     </div>
   </div>

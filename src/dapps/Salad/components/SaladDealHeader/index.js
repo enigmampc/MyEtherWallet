@@ -1,2 +1,1 @@
-export { default }
-from './SaladDealHeader';
+export { default } from './SaladDealHeader';

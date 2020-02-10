@@ -1,85 +1,87 @@
 @import '../../SaladGlobal.scss';
 #salad-deposit-container {
-    @extend %template-container;
-    margin: 17px;
-    #deposit-info {
+  @extend %template-container;
+
+  margin: 17px;
+  #deposit-info {
+    width: 100%;
+    height: 35px;
+    margin-top: 21px;
+    margin-bottom: 10px;
+    font-weight: inherit;
+    font-size: inherit;
+    font-family: inherit;
+    line-height: inherit;
+    .current-address {
+      font-weight: bold;
+      font-size: inherit;
+      font-family: inherit;
+      line-height: inherit;
+    }
+  }
+  #deposit-form {
+    margin-top: 45px;
+    .delivery-address {
+      @media all and (max-width: 767px) {
+        margin-top: 10px !important;
+      }
+    }
+    .delivery-address-label {
+      @extend %shared-text;
+
+      font-size: 18px;
+      line-height: 25px;
+      color: black;
+      //margin-top: 30px !important;
+      margin-bottom: 2px !important;
+    }
+    .mixAmount-label {
+      font-weight: bold;
+    }
+    .err-msg {
+      margin-top: 10px;
+      color: $red-1;
+      font-weight: normal;
+    }
+    .deposit-btn-container {
+      text-align: center;
+      //margin-top: 22px;
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+    }
+    .startDeposit-btn {
+      color: white;
+      font-family: 'Roboto', sans-serif !important;
+      font-weight: 400;
+      font-size: 25px;
+      line-height: 29px;
+      height: 67px;
+      width: 80%;
+      border-radius: 4px;
+      background-color: #53c2b3;
+      cursor: hand;
+    }
+    .delivery-address-input {
+      display: flex;
+      width: 100%;
+      @media all and (max-width: $tablet-width) {
+        display: block;
+        text-align: center;
+      }
+      input {
+        background-color: #f3efef;
+        border: 1px solid #3bbda9;
+        height: 52px;
+        padding-left: 20px;
+        padding-right: 20px;
         width: 100%;
-        height: 35px;
-        margin-top: 21px;
-        margin-bottom: 10px;
-        font-weight: inherit;
-        font-size: inherit;
-        font-family: inherit;
-        line-height: inherit;
-        .current-address {
-            font-weight: bold;
-            font-size: inherit;
-            font-family: inherit;
-            line-height: inherit;
-        }
+        box-sizing: border-box;
+        font-size: 18px;
+        line-height: 21px;
+        font-family: 'Roboto', sans-serif;
+        font-weight: 300;
+      }
     }
-    #deposit-form {
-        margin-top: 45px;
-        .delivery-address {
-            @media all and (max-width: 767px) {
-                margin-top: 10px !important;
-            }
-        }
-        .delivery-address-label {
-            @extend %shared-text;
-            font-size: 18px;
-            line-height: 25px;
-            color: black;
-            //margin-top: 30px !important;
-            margin-bottom: 2px !important;
-        }
-        .mixAmount-label {
-            font-weight: bold;
-        }
-        .err-msg {
-            margin-top: 10px;
-            color: $red-1;
-            font-weight: normal;
-        }
-        .deposit-btn-container {
-            text-align: center;
-            //margin-top: 22px;
-            position: absolute;
-            bottom: 0px;
-            width: 100%;
-        }
-        .startDeposit-btn {
-            color: white;
-            font-family: 'Roboto', sans-serif !important;
-            font-weight: 400;
-            font-size: 25px;
-            line-height: 29px;
-            height: 67px;
-            width: 80%;
-            border-radius: 4px;
-            background-color: #53c2b3;
-            cursor: hand;
-        }
-        .delivery-address-input {
-            display: flex;
-            width: 100%;
-            @media all and (max-width: $tablet-width) {
-                display: block;
-                text-align: center;
-            }
-            input {
-                background-color: #f3efef;
-                border: 1px solid #3bbda9;
-                height: 52px;
-                padding-left: 20px;
-                padding-right: 20px;
-                width: 100%;
-                box-sizing: border-box;
-                font-size: 18px;
-                line-height: 21px;
-                font-family: 'Roboto', sans-serif;
-                font-weight: 300;
-            }
-        }
-    }
+  }
 }

@@ -6,8 +6,14 @@
       <b-button class="button cancel-btn" @click="cancel()">
         {{ $t('salad.cancel-button') }}
       </b-button>
-      <b-button :disabled="isSubmitting" class="button submit-btn" @click="confirmDeposit()">
-        {{ isSubmitting ? $t('salad.pending-button') : $t('salad.confirm-button') }}
+      <b-button
+        :disabled="isSubmitting"
+        class="button submit-btn"
+        @click="confirmDeposit()"
+      >
+        {{
+          isSubmitting ? $t('salad.pending-button') : $t('salad.confirm-button')
+        }}
       </b-button>
     </b-container>
   </div>
@@ -26,11 +32,11 @@ export default {
     isSubmitting: Boolean
   },
   methods: {
-    confirmDeposit () {
-      this.$emit("confirmDeposit");
+    confirmDeposit() {
+      this.$emit('confirmDeposit');
     },
     cancel() {
-      this.$emit("cancelDeposit");
+      this.$emit('cancelDeposit');
     }
   }
 };

@@ -1,2 +1,1 @@
-export { default }
-from './SaladMixFooter';
+export { default } from './SaladMixFooter';
