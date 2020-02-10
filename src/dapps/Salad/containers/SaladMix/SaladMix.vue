@@ -1,7 +1,6 @@
 <template>
   <div id="salad-mix-container">
-    <salad-mix-header></salad-mix-header>
-    <div v-if="page == 'newDeposit'">
+    <div v-if="page == 'startNewMix'">
       <deposit-form @startDeposit="startDeposit"></deposit-form>
     </div>
     <div v-else-if="page == 'confirmDeposit'">
@@ -14,10 +13,10 @@
     <div v-else-if="page == 'success'">
       <success-form 
         @startNewMix="startNewMix" 
-        v-bind:successStatusHeader="successStatusHeader"
-        v-bind:successStatusMessage="successStatusMessage" 
+        v-bind:dealStatusHeader="dealStatusHeader"
+        v-bind:dealStatusMessage="dealStatusMessage" 
         v-bind:dealId="dealId"
-        v-bind:dealConfirmed="dealConfirmed">
+        v-bind:dealExecuted="dealExecuted">
       </success-form>
     </div>
     <salad-mix-footer></salad-mix-footer>
@@ -51,7 +50,7 @@ export default {
   },
   data: function() {
     return {
-      page: 'newDeposit',
+      page: 'startNewMix',
       mixAmount: "0.01",
       deliveryAddress: '',
       isSubmitting: false,
@@ -62,10 +61,10 @@ export default {
       err: null,
       deal: null,
       salad: null,
-      successStatusHeader: this.$t('salad.pendingStatus'),
-      successStatusMessage: this.$t('salad.pendingStatusMessage'),
+      dealStatusHeader: this.$t('salad.pendingStatus'),
+      dealStatusMessage: this.$t('salad.pendingStatusMessage'),
       dealId: '',
-      dealConfirmed: false
+      dealExecuted: false
     };
   },
   computed: {
@@ -86,16 +85,16 @@ export default {
       this.deal = newVal;
       this.dealId = newVal.dealId;
       if (this.deal.status == DEAL_STATUS.EXECUTED) {
-        this.successStatusHeader = this.$t('salad.completedStatus');
-        this.successStatusMessage = this.$t('salad.completedStatusMessage');
-        this.dealConfirmed = true;
+        this.dealStatusHeader = this.$t('salad.completedStatus');
+        this.dealStatusMessage = this.$t('salad.completedStatusMessage');
+        this.dealExecuted = true;
       } else {
         if (this.isPending) {
-          this.successStatusHeader = this.$t('salad.pendingStatus');
-          this.successStatusMessage = this.$t('salad.pendingStatusMessage');
+          this.dealStatusHeader = this.$t('salad.pendingStatus');
+          this.dealStatusMessage = this.$t('salad.pendingStatusMessage');
         } else {
-          this.successStatusHeader = this.$t('salad.submittedStatus');
-          this.successStatusMessage = this.$t('salad.submittedStatusMessage');
+          this.dealStatusHeader = this.$t('salad.submittedStatus');
+          this.dealStatusMessage = this.$t('salad.submittedStatusMessage');
         }
       }
     }
@@ -106,13 +105,14 @@ export default {
   methods: {
     startDeposit(deliveryAddress) {
       this.deliveryAddress = toChecksumAddress(deliveryAddress);
+      this.dealExecuted = false;
       this.page = 'confirmDeposit';
     },
     cancelDeposit() {
       this.startNewMix();
     },
     startNewMix() {
-      this.page = 'newDeposit';
+      this.page = 'startNewMix';
       this.deliveryAddress = '';
       this.isSubmitting = false;
       this.isPending = false;
@@ -134,7 +134,8 @@ export default {
           const amountInWei = this.web3.utils.toWei(amount);
           
           const depositReceipt = await this.salad.makeDepositAsync(sender, amountInWei);
-          Toast.responseHandler(`Deposit made with tx: ${depositReceipt.transactionHash}`, Toast.INFO);
+          this.dealId = depositReceipt.transactionHash;
+          Toast.responseHandler(`Deposit made with tx: ${this.dealId}`, Toast.INFO);
           
           const encRecipient = await this.salad.encryptRecipientAsync(recipient);
           const myPubKey = this.salad.keyPair.publicKey;

@@ -22,6 +22,14 @@
             <a href="#">{{ $t('salad.feeCalculation-label') }}</a>
           </b-col>
         </b-row>
+        <b-row v-if="dealId">
+          <b-col>
+            <a href="#">{{ $t('salad.dealId-label') }}{{ maskDealId() }}</a>
+          </b-col>
+          <b-col>
+            <a href="#">{{ $t('salad.viewOnEnigma-label') }}</a>
+          </b-col>
+        </b-row>
       </b-container>
   </div>
 </template>
@@ -32,11 +40,22 @@
 import { mapState } from 'vuex';
 
 export default {
-  // todo fees and mixAmount as data/props
+  // TODO: dealId, fees and mixAmount as data/props
+  props: {
+    dealId: String
+  },
   computed: {
     ...mapState('main', ['mixAmount']),
   },
   methods: {
+    maskDealId: function() {
+      // Return masked txn id, eg "0xDECAF....68D"
+      return (
+        this.dealId.substring(0, 5) +
+        '...' +
+        this.dealId.substring(this.dealId.length - 2)
+      );
+    },
     confirm () {
       this.$emit("confirmDeposit");
     },

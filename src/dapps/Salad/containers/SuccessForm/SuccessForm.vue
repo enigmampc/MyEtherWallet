@@ -1,48 +1,29 @@
 <template>
-  <div class="salad-success-form">
+  <div id="salad-deal-container">
+    <salad-deal-header></salad-deal-header>
     <div>
       <b-container>
         <b-row>
-          <b-col cols="12">
-            <h3 class="success-header">
+          <b-col>
+            <h3 class="salad-success-msg">
               {{ $t('salad.saladSuccessHeader') }}
             </h3>
           </b-col>
         </b-row>
-        <transaction-details></transaction-details>
-        <b-container>
-          <b-row v-if="dealId">
-            <b-col>
-              <span class="dealId-label">
-                {{ $t('salad.dealId-label') }}
-              </span>
-            </b-col>
-            <b-col>
-              <a href="#">{{ dealId }}</a>
-            </b-col>
+        <transaction-details v-bind:dealId="dealId"></transaction-details>
+        <b-container class="deal-status-container">
+          <b-row>
+            {{ dealStatusHeader }}
           </b-row>
           <b-row>
-            <b-col>
-              <h3 class="successStatus-label">
-                {{ successStatusHeader }}
-              </h3>
-            </b-col>
+            {{ dealStatusMessage }}
           </b-row>
           <b-row>
-            <b-col>
-              <h3 class="successStatus-label">
-                {{ successStatusMessage }}
-              </h3>
-            </b-col>
-          </b-row>
-          <b-row>
-            <b-col>
-              <div v-if="dealConfirmed" class="success-btn-container">
-                <b-button class="submit-btn" v-on:click="$emit('startNewMix')">
-                  {{ $t('salad.startNewMix-button') }}
-                </b-button>
-              </div>
-            </b-col>
+              <div v-if="dealExecuted" class="new-mix-btn-container">
+              <b-button class="submit-btn" v-on:click="$emit('startNewMix')">
+                {{ $t('salad.startNewMix-button') }}
+              </b-button>
+            </div>
           </b-row>
         </b-container>
       </b-container>
@@ -52,17 +33,20 @@
 
 
 <script>
+import SaladDealHeader from '../../components/SaladDealHeader';
 import TransactionDetails from '../../components/TransactionDetails';
+import { mapState } from 'vuex';
 
 export default {
   components: {
+    'salad-deal-header': SaladDealHeader,
     'transaction-details': TransactionDetails
   },
   props: {
-    successStatusHeader: String, 
-    successStatusMessage: String,
+    dealStatusHeader: String, 
+    dealStatusMessage: String,
     dealId: String,
-    dealConfirmed: Boolean
+    dealExecuted: Boolean
   }
 };
 </script>

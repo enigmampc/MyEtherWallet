@@ -1,11 +1,12 @@
 @import '../../SaladGlobal.scss';
 #salad-deposit-container {
     @extend %template-container;
+    margin: 17px;
     #deposit-info {
         width: 100%;
         height: 35px;
-        margin-bottom: 50px;
-        margin-left: 17px;
+        margin-top: 21px;
+        margin-bottom: 10px;
         font-weight: inherit;
         font-size: inherit;
         font-family: inherit;
@@ -18,8 +19,7 @@
         }
     }
     #deposit-form {
-        margin-top: 71px;
-        margin-left: 17px;
+        margin-top: 45px;
         .delivery-address {
             @media all and (max-width: 767px) {
                 margin-top: 10px !important;
@@ -30,7 +30,7 @@
             font-size: 18px;
             line-height: 25px;
             color: black;
-            margin-top: 10px !important;
+            //margin-top: 30px !important;
             margin-bottom: 2px !important;
         }
         .mixAmount-label {
@@ -43,7 +43,10 @@
         }
         .deposit-btn-container {
             text-align: center;
-            margin-top: 22px;
+            //margin-top: 22px;
+            position: absolute;
+            bottom: 0px;
+            width: 100%;
         }
         .startDeposit-btn {
             color: white;
@@ -51,10 +54,11 @@
             font-weight: 400;
             font-size: 25px;
             line-height: 29px;
-            width: 85%;
             height: 67px;
+            width: 80%;
             border-radius: 4px;
             background-color: #53c2b3;
+            cursor: hand;
         }
         .delivery-address-input {
             display: flex;

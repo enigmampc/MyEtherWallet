@@ -1,7 +1,7 @@
 @import '../../SaladGlobal.scss';
 #salad-confirmation-container {
     @extend %template-container;
-    margin-left: 17px;
+    margin: 17px;
     .status-container {
         margin-top: 20px;
         margin-bottom: 60px;

@@ -1,5 +1,6 @@
 <template>
   <div id="salad-confirmation-container">
+    <salad-mix-header></salad-mix-header>
     <transaction-details></transaction-details>
     <b-container class="confirmation-btn-container">
       <b-button class="button cancel-btn" @click="cancel()">
@@ -13,11 +14,13 @@
 </template>
 
 <script>
+import SaladMixHeader from '../../components/SaladMixHeader';
 import TransactionDetails from '../../components/TransactionDetails';
 
 export default {
   components: {
-    'transaction-details': TransactionDetails,
+    'salad-mix-header': SaladMixHeader,
+    'transaction-details': TransactionDetails
   },
   props: {
     isSubmitting: Boolean

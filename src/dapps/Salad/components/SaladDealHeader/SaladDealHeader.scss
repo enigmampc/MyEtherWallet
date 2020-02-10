@@ -1,8 +1,7 @@
 @import '../../SaladGlobal.scss';
-#salad-mix-header {
+#salad-deal-header {
     margin-top: 28px;
-    display: flex;
-    justify-content: space-between;
+    text-align: right;
     div {
         @extend %shared-text;
         font-size: 25px;
