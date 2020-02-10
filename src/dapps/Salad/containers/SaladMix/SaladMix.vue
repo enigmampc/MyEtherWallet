@@ -64,7 +64,8 @@ export default {
       dealStatusHeader: this.$t('salad.pendingStatus'),
       dealStatusMessage: this.$t('salad.pendingStatusMessage'),
       dealId: '',
-      dealExecuted: false
+      dealExecuted: false,
+      dealConfirmed: false
     };
   },
   computed: {

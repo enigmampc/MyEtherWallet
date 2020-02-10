@@ -1,7 +1,8 @@
-import Vue from 'vue';
+import VueX from 'vuex';
 import { shallowMount } from '@vue/test-utils';
 import SuccessForm from '@/dapps/Salad/containers/SuccessForm';
 import { Tooling } from '@@/helpers';
+import { state, getters } from '@@/helpers/mockStore';
 
 describe('SuccessForm.vue', () => {
     let localVue, wrapper, i18n, store;
@@ -10,21 +11,29 @@ describe('SuccessForm.vue', () => {
         const baseSetup = Tooling.createLocalVueInstance();
         localVue = baseSetup.localVue;
         i18n = baseSetup.i18n;
-        store = baseSetup.store;
+        store = new VueX.Store({
+        modules: {
+            main: {
+            namespaced: true,
+            state,
+            getters
+            }
+        }
+        });
     });
 
     beforeEach(() => {
         wrapper = shallowMount(SuccessForm, {
-            localVue,
-            i18n,
-            store,
-            attachToDocument: true,
-            propsData: {
-                dealStatusHeader: '',
-                dealStatusMessage: '',
-                dealId: '',
-                dealExecuted: false
-            },
+        localVue,
+        i18n,
+        store,
+        attachToDocument: true,
+                propsData: {
+                    dealStatusHeader: '',
+                    dealStatusMessage: '',
+                    dealId: '',
+                    dealExecuted: false
+                },
         });
     });
 
