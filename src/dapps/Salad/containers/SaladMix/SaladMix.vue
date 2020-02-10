@@ -89,13 +89,13 @@ export default {
         this.dealStatusHeader = this.$t('salad.completedStatus');
         this.dealStatusMessage = this.$t('salad.completedStatusMessage');
         this.dealExecuted = true;
+      } else if (this.deal.status == DEAL_STATUS.EXECUTABLE) {
+          this.dealStatusHeader = this.$t('salad.submittedStatus');
+          this.dealStatusMessage = this.$t('salad.submittedStatusMessage');
       } else {
         if (this.isPending) {
           this.dealStatusHeader = this.$t('salad.pendingStatus');
           this.dealStatusMessage = this.$t('salad.pendingStatusMessage');
-        } else {
-          this.dealStatusHeader = this.$t('salad.submittedStatus');
-          this.dealStatusMessage = this.$t('salad.submittedStatusMessage');
         }
       }
     }
