@@ -30,9 +30,8 @@ describe('Salad.vue', () => {
       attachToDocument: true
     });
   });
-  
+
   it('renders title', () => {
     expect(wrapper.find('.salad-dapp-title').text()).toEqual('Salad');
   });
 });
- 

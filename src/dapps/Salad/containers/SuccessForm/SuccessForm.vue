@@ -10,7 +10,7 @@
             </h3>
           </b-col>
         </b-row>
-        <transaction-details v-bind:dealId="dealId"></transaction-details>
+        <transaction-details :deal-id="dealId"></transaction-details>
         <b-container class="deal-status-container">
           <b-row>
             {{ dealStatusHeader }}
@@ -19,8 +19,8 @@
             {{ dealStatusMessage }}
           </b-row>
           <b-row>
-              <div v-if="dealExecuted" class="new-mix-btn-container">
-              <b-button class="submit-btn" v-on:click="$emit('startNewMix')">
+            <div v-if="dealExecuted" class="new-mix-btn-container">
+              <b-button class="submit-btn" @click="$emit('startNewMix')">
                 {{ $t('salad.startNewMix-button') }}
               </b-button>
             </div>
@@ -31,11 +31,9 @@
   </div>
 </template>
 
-
 <script>
 import SaladDealHeader from '../../components/SaladDealHeader';
 import TransactionDetails from '../../components/TransactionDetails';
-import { mapState } from 'vuex';
 
 export default {
   components: {
@@ -43,7 +41,7 @@ export default {
     'transaction-details': TransactionDetails
   },
   props: {
-    dealStatusHeader: String, 
+    dealStatusHeader: String,
     dealStatusMessage: String,
     dealId: String,
     dealExecuted: Boolean

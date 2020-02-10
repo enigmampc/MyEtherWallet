@@ -1,12 +1,13 @@
 @import '../../SaladGlobal.scss';
 #salad-mix-header {
-    margin-top: 28px;
-    display: flex;
-    justify-content: space-between;
-    div {
-        @extend %shared-text;
-        font-size: 25px;
-        line-height: 34px;
-        color: #28464f;
-    }
+  margin-top: 28px;
+  display: flex;
+  justify-content: space-between;
+  div {
+    @extend %shared-text;
+
+    font-size: 25px;
+    line-height: 34px;
+    color: #28464f;
+  }
 }

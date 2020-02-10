@@ -1,2 +1,1 @@
-export { default }
-from './SaladMixHeader';
+export { default } from './SaladMixHeader';

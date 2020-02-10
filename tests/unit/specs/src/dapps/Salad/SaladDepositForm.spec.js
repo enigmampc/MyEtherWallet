@@ -33,7 +33,6 @@ describe('DepositForm.vue', () => {
   });
 
   it('should return the correct data', () => {
-    
     expect(wrapper.vm.$data.deliveryAddress).toEqual('');
     expect(wrapper.vm.$data.nextMix).toEqual('');
     expect(wrapper.vm.$data.message).toEqual('');
@@ -81,8 +80,10 @@ describe('DepositForm.vue', () => {
   it('valid eth balance', () => {
     const mixAmount = '1';
     wrapper.setProps({ mixAmount });
-    
-    wrapper.setData({ account: { balance: web3.utils.toWei(mixAmount, 'ether') } });
+
+    wrapper.setData({
+      account: { balance: web3.utils.toWei(mixAmount, 'ether') }
+    });
 
     const deliveryAddress = state.account.address;
     wrapper.setData({ deliveryAddress });
@@ -90,4 +91,3 @@ describe('DepositForm.vue', () => {
     expect(wrapper.vm.hasEnoughEth).toBe(true);
   });
 });
- 

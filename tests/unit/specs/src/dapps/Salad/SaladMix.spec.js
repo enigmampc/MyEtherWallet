@@ -50,8 +50,7 @@ describe('SaladMix.vue', () => {
       await wrapper.vm.startDeposit('foo');
     } catch (e) {
       //todo expect error
-    }
-    finally {
+    } finally {
       expect(wrapper.vm.$data.page).toEqual('startNewMix');
     }
   });
@@ -75,7 +74,7 @@ describe('SaladMix.vue', () => {
     await wrapper.vm.startDeposit(state.account.address);
     expect(wrapper.vm.$data.page).toEqual('confirmDeposit');
 
-    // todo mock salad and test 
+    // todo mock salad and test
     await wrapper.vm.confirmDeposit();
   });
 });

@@ -12,77 +12,77 @@ import salad from '@/assets/images/icons/dapps/salad.svg';
 import { ETH, GOERLI, ROP, RIN, KOV } from '@/networks/types';
 
 const dapps = {
-    salad: {
-        route: '/interface/dapps/salad',
-        icon: salad,
-        // todo salad disabled icon
-        iconDisabled: salad,
-        title: 'salad.title',
-        desc: 'salad.description',
-        supportedNetworks: [ETH.name, RIN.name],
-        lastUpdated: '25/12/2019',
-        releaseDate: '25/12/2019'
-    },
-    manageEns: {
-        route: '/interface/dapps/manage-ens',
-        icon: manageEns,
-        iconDisabled: manageEnsHov,
-        title: 'ens.title',
-        desc: 'ens.dapp-desc',
-        supportedNetworks: [ETH.name, GOERLI.name, ROP.name, RIN.name],
-        lastUpdated: '11/06/2019',
-        releaseDate: '10/05/2018'
-    },
-    domainSale: {
-        route: '/interface/dapps/name-wallet',
-        icon: domainSale,
-        iconDisabled: domainSaleHov,
-        title: 'subDomain.title',
-        desc: 'subDomain.dapp-desc',
-        supportedNetworks: [ETH.name],
-        lastUpdated: '09/20/2019',
-        releaseDate: '10/08/2018'
-    },
-    scheduleTransaction: {
-        route: '/interface/dapps/schedule-transaction',
-        icon: scheduleTransaction,
-        iconDisabled: scheduleTransactionHov,
-        title: 'scheduleTx.title',
-        desc: 'scheduleTx.dapp-desc',
-        supportedNetworks: [ETH.name, KOV.name],
-        lastUpdated: '10/28/2019',
-        releaseDate: '02/21/2019'
-    },
-    maker: {
-        route: '/interface/dapps/maker-dai',
-        icon: makerdai,
-        iconDisabled: makerdaiDisabled,
-        title: 'dappsMaker.maker_title',
-        desc: 'dappsMaker.maker_desc',
-        supportedNetworks: [ETH.name, KOV.name],
-        lastUpdated: '08/14/2019',
-        releaseDate: '06/14/2019'
-    },
-    makerOld: {
-        route: '/interface/dapps/maker-sai',
-        icon: makerdai,
-        iconDisabled: makerdaiDisabled,
-        title: 'dappsMaker.maker_title_old',
-        desc: 'dappsMaker.maker_desc_sai',
-        supportedNetworks: [ETH.name, KOV.name],
-        lastUpdated: '08/14/2019',
-        releaseDate: '06/14/2019'
-    },
-    ambrpay: {
-        route: '/interface/dapps/ambrpay',
-        icon: ambrpay,
-        iconDisabled: ambrpayDisabled,
-        title: 'dappsAmbrpay.title',
-        desc: 'dappsAmbrpay.ambrpay-popover',
-        supportedNetworks: [ETH.name, KOV.name],
-        lastUpdated: '11/05/2019',
-        releaseDate: '11/05/2019'
-    }
+  salad: {
+    route: '/interface/dapps/salad',
+    icon: salad,
+    // todo salad disabled icon
+    iconDisabled: salad,
+    title: 'salad.title',
+    desc: 'salad.description',
+    supportedNetworks: [ETH.name, RIN.name],
+    lastUpdated: '25/12/2019',
+    releaseDate: '25/12/2019'
+  },
+  manageEns: {
+    route: '/interface/dapps/manage-ens',
+    icon: manageEns,
+    iconDisabled: manageEnsHov,
+    title: 'ens.title',
+    desc: 'ens.dapp-desc',
+    supportedNetworks: [ETH.name, GOERLI.name, ROP.name, RIN.name],
+    lastUpdated: '11/06/2019',
+    releaseDate: '10/05/2018'
+  },
+  domainSale: {
+    route: '/interface/dapps/name-wallet',
+    icon: domainSale,
+    iconDisabled: domainSaleHov,
+    title: 'subDomain.title',
+    desc: 'subDomain.dapp-desc',
+    supportedNetworks: [ETH.name],
+    lastUpdated: '09/20/2019',
+    releaseDate: '10/08/2018'
+  },
+  scheduleTransaction: {
+    route: '/interface/dapps/schedule-transaction',
+    icon: scheduleTransaction,
+    iconDisabled: scheduleTransactionHov,
+    title: 'scheduleTx.title',
+    desc: 'scheduleTx.dapp-desc',
+    supportedNetworks: [ETH.name, KOV.name],
+    lastUpdated: '10/28/2019',
+    releaseDate: '02/21/2019'
+  },
+  maker: {
+    route: '/interface/dapps/maker-dai',
+    icon: makerdai,
+    iconDisabled: makerdaiDisabled,
+    title: 'dappsMaker.maker_title',
+    desc: 'dappsMaker.maker_desc',
+    supportedNetworks: [ETH.name, KOV.name],
+    lastUpdated: '08/14/2019',
+    releaseDate: '06/14/2019'
+  },
+  makerOld: {
+    route: '/interface/dapps/maker-sai',
+    icon: makerdai,
+    iconDisabled: makerdaiDisabled,
+    title: 'dappsMaker.maker_title_old',
+    desc: 'dappsMaker.maker_desc_sai',
+    supportedNetworks: [ETH.name, KOV.name],
+    lastUpdated: '08/14/2019',
+    releaseDate: '06/14/2019'
+  },
+  ambrpay: {
+    route: '/interface/dapps/ambrpay',
+    icon: ambrpay,
+    iconDisabled: ambrpayDisabled,
+    title: 'dappsAmbrpay.title',
+    desc: 'dappsAmbrpay.ambrpay-popover',
+    supportedNetworks: [ETH.name, KOV.name],
+    lastUpdated: '11/05/2019',
+    releaseDate: '11/05/2019'
+  }
 };
 
 export default dapps;
