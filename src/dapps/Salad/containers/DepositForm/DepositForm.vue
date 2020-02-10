@@ -1,5 +1,6 @@
 <template>
   <div id="salad-deposit-container">
+    <salad-mix-header></salad-mix-header>
     <div id="deposit-info">
       {{ $t('salad.depositAddress-label') }}
       <span class="current-address">
@@ -7,12 +8,9 @@
       </span>
       {{ $t('salad.depositAddress-label2') }}
     </div>
-    
+
     <div id="deposit-form">
       <b-container>
-        <b-row>
-        </b-row>
-
         <b-row>
           <b-col>
             <div class="sub-text">
@@ -61,7 +59,6 @@
             </p>
           </b-col>
         </b-row>
-
       </b-container>
     </div>
   </div>
@@ -71,10 +68,11 @@
 import { mapState } from 'vuex';
 import { toChecksumAddress } from 'web3-utils';
 import BigNumber from 'bignumber.js';
+import SaladMixHeader from '../../components/SaladMixHeader';
 
 export default {
   components: {
-
+    'salad-mix-header': SaladMixHeader
   },
   data: function() {
     return {

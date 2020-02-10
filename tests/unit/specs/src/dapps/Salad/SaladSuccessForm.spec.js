@@ -1,7 +1,8 @@
-import Vue from 'vue';
+import VueX from 'vuex';
 import { shallowMount } from '@vue/test-utils';
 import SuccessForm from '@/dapps/Salad/containers/SuccessForm';
 import { Tooling } from '@@/helpers';
+import { state, getters } from '@@/helpers/mockStore';
 
 describe('SuccessForm.vue', () => {
   let localVue, wrapper, i18n, store;
@@ -10,7 +11,15 @@ describe('SuccessForm.vue', () => {
     const baseSetup = Tooling.createLocalVueInstance();
     localVue = baseSetup.localVue;
     i18n = baseSetup.i18n;
-    store = baseSetup.store;
+    store = new VueX.Store({
+      modules: {
+        main: {
+          namespaced: true,
+          state,
+          getters
+        }
+      }
+    });
   });
 
   beforeEach(() => {
@@ -20,29 +29,26 @@ describe('SuccessForm.vue', () => {
       store,
       attachToDocument: true,
       propsData: {
-        successStatusHeader: '',
-        successStatusMessage: '',
+        dealStatusHeader: '',
+        dealStatusMessage: '',
         dealId: '',
-        dealConfirmed: false
-      },
+        dealExecuted: false
+      }
     });
   });
 
   it('should return the correct data', () => {
-    expect(wrapper.vm.$props.successStatusHeader).toEqual('');
-    expect(wrapper.vm.$props.successStatusMessage).toEqual('');
+    expect(wrapper.vm.$props.dealStatusHeader).toEqual('');
+    expect(wrapper.vm.$props.dealStatusMessage).toEqual('');
     expect(wrapper.vm.$props.dealId).toEqual('');
-    expect(wrapper.vm.$props.dealConfirmed).toEqual(false);
+    expect(wrapper.vm.$props.dealExecuted).toEqual(false);
   });
 
-    // todo test that button is present when the deal is confirmed
+  // todo test that button is present when the deal is confirmed
   xit('New mix button is not present until new deal is confirmed', () => {
+    expect(wrapper.classes()).not.toContain('new-mix-btn-container');
 
-    expect(wrapper.classes()).not.toContain('success-btn-container');
-    
-    wrapper.setProps({ dealConfirmed: true });
-    expect(wrapper.classes()).toContain('success-btn-container');
+    wrapper.setProps({ dealExecuted: true });
+    expect(wrapper.classes()).toContain('new-mix-btn-container');
   });
-
 });
- 

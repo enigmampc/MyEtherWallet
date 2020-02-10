@@ -1,60 +1,49 @@
 @import '../../SaladGlobal.scss';
+#salad-confirmation-container {
+  @extend %template-container;
 
-.salad-confirmation-form {
-    @extend %template-container;
-    
-    .confirmation-header {
-        font-weight: 400;
-        margin-top: 1px !important;
-        margin-bottom: 20px !important;
+  margin: 17px;
+  .status-container {
+    margin-top: 20px;
+    margin-bottom: 60px;
+    display: flex;
+    flex-direction: row;
+    align-content: space-between;
+    justify-content: center;
+  }
+  .confirmation-btn-container {
+    padding-left: 0;
+    margin-top: 60px;
+    margin-bottom: 10px;
+    display: flex;
+    align-content: center;
+    justify-content: space-between;
+    // Mobile
+    @media all and (max-width: $mobile-width) {
+      margin-top: 30px;
     }
-    .confirmation-container {
-        .confirmation-btn-container {
-            margin: 10px 10px 10px;
-            background-color: 'CDF2EE' !important;
-            color: 'CDF2EE';
-        }
+    .button {
+      text-align: center;
+      border-radius: 4px;
+      cursor: hand;
+      width: 251px;
+      height: 67px;
+      font-family: 'Roboto', sans-serif !important;
+      font-weight: 400;
+      font-style: normal;
+      font-size: 25px;
+      line-height: 29px;
+      // Mobile
+      @media all and (max-width: $mobile-width) {
+        width: 100%;
+      }
     }
-    .status-container {
-        margin-top: 20px;
-        margin-bottom: 60px;
-        display: flex;
-        flex-direction: row;
-        align-content: space-between;
-        justify-content: center;
+    .submit-btn {
+      background-color: #219b87;
+      margin-right: 20px;
     }
-    .buttons-container {
-        width: auto;
-        margin-top: 60px;
-        margin-bottom: 10px;
-        display: flex;
-        align-content: center;
-        justify-content: space-between;
-        // Mobile
-        @media all and (max-width: $mobile-width) {
-            margin-top: 30px;
-        }
-        .button {
-            text-align: center;
-            border-radius: 4px;
-            cursor: pointer;
-            width: 251px;
-            height: 67px;
-            font-family: 'Roboto', sans-serif !important;
-            font-weight: 400;
-            font-style: normal;
-            font-size: 25px;
-            line-height: 29px;
-            // Mobile
-            @media all and (max-width: $mobile-width) {
-                width: 100%;
-            }
-        }
-        .submit-btn {
-            background-color: #219b87;
-        }
-        .cancel-btn {
-            background-color: #6577bb;
-        }
+    .cancel-btn {
+      background-color: #6577b8;
     }
+  }
 }

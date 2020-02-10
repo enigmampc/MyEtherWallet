@@ -1,7 +1,8 @@
-import Vue from 'vue';
+import VueX from 'vuex';
 import { shallowMount } from '@vue/test-utils';
 import SaladMix from '@/dapps/Salad/containers/SaladMix';
 import { Tooling } from '@@/helpers';
+import { state, getters } from '@@/helpers/mockStore';
 
 describe('SaladMix.vue', () => {
   let localVue, i18n, wrapper, store;
@@ -10,8 +11,15 @@ describe('SaladMix.vue', () => {
     const baseSetup = Tooling.createLocalVueInstance();
     localVue = baseSetup.localVue;
     i18n = baseSetup.i18n;
-    store = baseSetup.store;
-    Vue.config.warnHandler = () => {};
+    store = new VueX.Store({
+      modules: {
+        main: {
+          namespaced: true,
+          state,
+          getters
+        }
+      }
+    });
   });
 
   beforeEach(() => {
@@ -24,7 +32,7 @@ describe('SaladMix.vue', () => {
   });
 
   it('should return the correct data', () => {
-    expect(wrapper.vm.$data.page).toEqual('newDeposit');
+    expect(wrapper.vm.$data.page).toEqual('startNewMix');
     expect(wrapper.vm.$data.mixAmount).toEqual('0.01');
     expect(wrapper.vm.$data.deliveryAddress).toEqual('');
     expect(wrapper.vm.$data.isSubmitting).toEqual(false);
@@ -42,33 +50,31 @@ describe('SaladMix.vue', () => {
       await wrapper.vm.startDeposit('foo');
     } catch (e) {
       //todo expect error
-    }
-    finally {
-      expect(wrapper.vm.$data.page).toEqual('newDeposit');
+    } finally {
+      expect(wrapper.vm.$data.page).toEqual('startNewMix');
     }
   });
 
   it('should start deposit with valid address', async () => {
-    await wrapper.vm.startDeposit(wrapper.vm.account.address);
+    await wrapper.vm.startDeposit(state.account.address);
     expect(wrapper.vm.$data.page).toEqual('confirmDeposit');
   });
 
   it('should cancel deposit', async () => {
-    await wrapper.vm.startDeposit(wrapper.vm.account.address);
+    await wrapper.vm.startDeposit(state.account.address);
     expect(wrapper.vm.$data.page).toEqual('confirmDeposit');
 
     await wrapper.vm.cancelDeposit();
-    expect(wrapper.vm.$data.page).toEqual('newDeposit');
+    expect(wrapper.vm.$data.page).toEqual('startNewMix');
     expect(wrapper.vm.$data.deliveryAddress).toEqual('');
     expect(wrapper.vm.$data.isSubmitting).toEqual(false);
   });
 
   xit('start confirm deposit', async () => {
-    await wrapper.vm.startDeposit(wrapper.vm.account.address);
+    await wrapper.vm.startDeposit(state.account.address);
     expect(wrapper.vm.$data.page).toEqual('confirmDeposit');
 
-    // todo mock salad and test 
+    // todo mock salad and test
     await wrapper.vm.confirmDeposit();
   });
 });
- 

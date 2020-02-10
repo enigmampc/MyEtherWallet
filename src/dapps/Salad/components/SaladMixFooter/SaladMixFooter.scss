@@ -1,36 +1,40 @@
-@import '~@/scss/GlobalVariables';
+@import '../../SaladGlobal.scss';
 #salad-mix-footer {
-    left: 237px;
-    width: 206px;
-    height: 182px;
-    margin-top: 30px;
-    margin-left: auto;
-    margin-right: auto;
-    font-family: 'Avenir Next';
+  left: 237px;
+  width: 203px;
+  height: 182px;
+  margin-top: 30px;
+  margin-left: auto;
+  margin-right: auto;
+  @extend %shared-text;
+
+  font-size: 14px;
+  line-height: 19px;
+  color: #28464f;
+  vertical-align: middle;
+  .mix-amount-label {
+    padding-top: 20px;
+    font-weight: bold;
+    @extend %shared-text;
+
     font-size: 14px;
     line-height: 19px;
-    color: #28464f;
-    vertical-align: middle;
-    .mix-amount-label {
-        padding-top: 20px;
-        font-weight: bold;
-        font-family: 'Avenir Next';
-        font-size: 14px;
-        line-height: 19px;
-    }
-    .mix-time-label {
-        font-family: 'Avenir Next';
-        font-size: 14px;
-        line-height: 19px;
-    }
-    a,
-    .mix-learn-more-label {
-        margin-top: 30px;
-        height: 24px;
-        color: #7073b5;
-        font-family: 'Avenir Next';
-        font-size: 18px;
-        line-height: 25px;
-        text-align: center;
-    }
+  }
+  .mix-time-label {
+    @extend %shared-text;
+
+    font-size: 14px;
+    line-height: 19px;
+  }
+  a,
+  .mix-learn-more-label {
+    margin-top: 30px;
+    height: 24px;
+    color: #7073b5;
+    @extend %shared-text;
+
+    font-size: 18px;
+    line-height: 25px;
+    text-align: center;
+  }
 }
